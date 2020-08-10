@@ -23,7 +23,6 @@ button {
   outline: none;
   border: none;
   border-radius: 4px;
-  transform-style: preserve-3d;
   transition: all 250ms ease;
   cursor: pointer;
   &:focus {

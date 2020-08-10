@@ -1,26 +1,32 @@
 <template>
   <div class="cart__product">
     <div class="cart__product_image_container">
-      <img
-        src="https://images.unsplash.com/photo-1446292532430-3e76f6ab6444?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-        alt
-      />
+      <img :src="item.item.src.fields.file.url" alt />
     </div>
     <div class="cart__product_details">
       <div class="cart__product_details_name">
-        <span>Product Name</span>
-        <span>Price</span>
+        <span>{{item.item.name}}</span>
+        <span>{{item.item.price}}</span>
       </div>
-      <Counter />
+      <keep-alive>
+        <Counter :value="item.amount" v-model="itemAmount" />
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
+// import { mapActions } from "vuex";
 import Counter from "@/components/Counter";
 export default {
+  props: ["item"],
   components: {
     Counter,
+  },
+  data() {
+    return {
+      itemAmount: 0,
+    };
   },
 };
 </script>

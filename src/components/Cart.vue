@@ -8,19 +8,18 @@
         </div>
 
         <div class="cart__content">
-          <CartProduct />
-          <CartProduct />
+          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
         <div class="cart__footer">
           <div class="cart__discount">
-            <BaseInput placeholder="Promo Code" />
-            <BaseButton class="btn-outline">
+            <BaseInput placeholder="Use IAMBROKE for 10% off" v-model="promoCode" />
+            <BaseButton class="btn-outline" @click.native="applyDisc">
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
           </div>
           <div class="cart__price_total">
             <span>Total:</span>
-            <span>£150</span>
+            <span>£{{getCartTotalPrice}}</span>
           </div>
           <div class="cart__checkout">
             <BaseButton class="btn-fill btn-wide">
@@ -34,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import CartProduct from "@/components/CartProduct.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseInput from "@/components/BaseInput.vue";
@@ -45,13 +44,21 @@ export default {
     BaseInput,
   },
   data() {
-    return {};
+    return {
+      promoCode: "",
+    };
   },
   computed: {
-    ...mapState(["_isCartOpen"]),
+    ...mapGetters(["getCartTotalPrice"]),
+    ...mapState(["_isCartOpen", "cart"]),
   },
   methods: {
-    ...mapActions(["isCartOpen"]),
+    ...mapActions(["isCartOpen", "applyDiscount"]),
+    applyDisc() {
+      if (this.promoCode === "IAMBROKE") {
+        this.applyDiscount(0.1);
+      }
+    },
     closeModal() {
       this.isCartOpen(false);
     },

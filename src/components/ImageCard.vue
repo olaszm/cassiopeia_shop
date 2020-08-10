@@ -1,34 +1,36 @@
 <template>
-  <div class="card">
-    <div class="card__image-container">
-      <img
-        src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80"
-        alt
-      />
-      <BaseButton class="btn-fill btn-circle arrow">
-        <i slot="button-text" class="fas fa-long-arrow-alt-right"></i>
-      </BaseButton>
+  <router-link :to="`/product/${item.id}`">
+    <div class="card">
+      <div class="card__image-container">
+        <img :src="item.item.src.fields.file.url" alt />
+        <BaseButton class="btn-fill btn-circle arrow">
+          <i slot="button-text" class="fas fa-long-arrow-alt-right"></i>
+        </BaseButton>
+      </div>
+      <div class="card__content">
+        <h4>{{ item.item.name }}</h4>
+        <p>
+          <span class="caption">{{ item.item.price }}</span>
+          <span v-if="item.item.old_price != 0" class="caption text-strike">{{
+            item.item.old_price
+          }}</span>
+        </p>
+      </div>
     </div>
-    <div class="card__content">
-      <h4>asd</h4>
-      <p>
-        <span class="caption">price</span>
-        <span class="caption text-strike">price</span>
-      </p>
-    </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 import BaseButton from "@/components/BaseButton";
 export default {
+  props: ["item"],
   components: {
     BaseButton,
   },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 .card {
   display: flex;
@@ -68,6 +70,8 @@ export default {
     margin: 1rem 0;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     span {
       margin: 0 0.5rem;
     }

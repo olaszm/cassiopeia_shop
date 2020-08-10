@@ -1,36 +1,37 @@
 <template>
   <div class="product">
     <div class="product__image">
-      <img
-        src="https://images.unsplash.com/photo-1446292532430-3e76f6ab6444?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-        alt
-      />
+      <img :src="product.src.fields.file.url" alt />
     </div>
     <div class="product__details">
       <div class="product__name">
-        <h3>Product name</h3>
+        <h3>{{ product.name }}</h3>
         <h2>
-          Price
-          <span class="text-strike">price</span>
+          {{ product.price }}
+          <span v-if="product.old_price != 0" class="text-strike">
+            {{
+            product.old_price
+            }}
+          </span>
         </h2>
       </div>
       <div class="product__settings">
         <div class="product__count">
           <p>Count</p>
           <div class="counter">
-            <Counter />
+            <Counter :value="1" v-model="itemCount" />
           </div>
         </div>
-        <div class="product__colors">
+        <!-- <div class="product__colors">
           <p>Color</p>
           <div class="product__colors_options">
             <div class="color"></div>
             <div class="color"></div>
             <div class="color"></div>
           </div>
-        </div>
+        </div>-->
         <div class="product__buttons">
-          <BaseButton class="btn-fill btn-wide">
+          <BaseButton @click.native="addToCart(product)" class="btn-fill btn-wide">
             <span slot="button-text">Add to cart</span>
           </BaseButton>
         </div>
@@ -42,21 +43,40 @@
 <script>
 import BaseButton from "@/components/BaseButton";
 import Counter from "@/components/Counter";
+import { mapActions } from "vuex";
 export default {
+  props: ["product"],
+  data() {
+    return {
+      itemCount: 1,
+    };
+  },
   components: {
     BaseButton,
     Counter,
   },
+  computed: {
+    getProductPicture() {
+      console.log(this.$props.product.src.fields.file.url);
+      return this.$props.product.src.fields.file.url;
+    },
+  },
+  methods: {
+    ...mapActions(["addProductToCart"]),
+    addToCart(item) {
+      this.addProductToCart({ item, amount: this.itemCount });
+    },
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 .product {
   //   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  // gap: 2rem;
+  gap: 2rem;
   place-items: space-between;
 }
 

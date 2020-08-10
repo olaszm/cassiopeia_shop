@@ -3,7 +3,7 @@
     <nav class="wrapper">
       <ul class="nav">
         <li>
-          <i class="fas fa-map-marker-alt icon"></i> City
+          <i class="fas fa-map-marker-alt"></i>London
         </li>
         <router-link class="title" to="/">cassiopeia</router-link>
         <div class="nav__icons">
@@ -20,7 +20,7 @@
       <div class="nav__categories-inner">
         <ul>
           <router-link class="title" to="/shop">Shop</router-link>
-          <router-link class="title" to="/product/valami">singleproduct</router-link>
+          <router-link class="title" to="/">Home</router-link>
           <li>Cactuses</li>
           <li>Accessories</li>
         </ul>

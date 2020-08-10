@@ -2,7 +2,7 @@
   <div class="app">
     <div class="main" @click.stop="closeCart">
       <Nav />
-      <router-view class="main-content" />
+      <router-view class="main-content" :key="$route.fullPath" />
       <Footer />
     </div>
     <Cart />
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// import axios from "axios";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
@@ -24,12 +25,22 @@ export default {
     ...mapState(["_isCartOpen"]),
   },
   methods: {
-    ...mapActions(["isCartOpen"]),
+    ...mapActions(["isCartOpen", "getProducts", "getItems"]),
     closeCart(e) {
-      if (!e.target.className.includes("fa-shopping-cart")) {
+      if (
+        !e.target.className.includes("fa-shopping-cart") &&
+        this._isCartOpen
+      ) {
         this.isCartOpen(false);
       }
     },
+  },
+  created() {
+    // axios.get("./items.json").then((res) => {
+    //   const { items } = res.data;
+    //   this.getProducts(items);
+    // });
+    this.getItems();
   },
 };
 </script>

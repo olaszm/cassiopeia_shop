@@ -2,10 +2,8 @@
   <div class="section__container">
     <slot name="section-title"></slot>
     <div class="section__content">
-      <ImageCard />
-      <ImageCard />
-      <ImageCard />
-      <ImageCard />
+      <ImageCard v-for="(item, index) in items" :key="index" :item="item">
+      </ImageCard>
     </div>
   </div>
 </template>
@@ -13,10 +11,10 @@
 <script>
 import ImageCard from "@/components/ImageCard";
 export default {
+  props: ["items"],
   components: { ImageCard },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .section__container {

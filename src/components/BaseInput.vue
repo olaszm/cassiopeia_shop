@@ -1,10 +1,19 @@
 <template>
-  <input type="text" :placeholder="placeHolderText" />
+  <input type="text" :placeholder="placeHolderText" ref="input" @input="inputChange" />
 </template>
 
 <script>
 export default {
   props: ["placeHolderText"],
+  model: {
+    prop: "promoCode",
+    event: "onChange",
+  },
+  methods: {
+    inputChange() {
+      this.$emit("onChange", this.$refs.input.value);
+    },
+  },
 };
 </script>
 
@@ -13,7 +22,7 @@ export default {
 
 input {
   height: 100%;
-  width: 80%;
+  width: 100%;
   background-color: none;
   border: 1px solid $light-grey;
   border-radius: 4px;
@@ -22,7 +31,9 @@ input {
   font-size: 14px;
   font-weight: 500;
   font-family: inherit;
+  background-color: $snow;
   margin-right: 1.5rem;
+  position: relative;
   &:focus {
     border: 1px solid $primary;
     outline: none;
