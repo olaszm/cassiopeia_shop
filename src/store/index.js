@@ -29,7 +29,11 @@ export default new Vuex.Store({
     ADD_TO_CART(state, payload) {
       state.cart.push(payload);
     },
+    REMOVE_CART_ITEM(state, index) {
+      state.cart.splice(index, 1);
+    },
   },
+
   actions: {
     applyDiscount({ commit }, discount) {
       commit("SET_DISCOUNT", discount);
@@ -51,15 +55,17 @@ export default new Vuex.Store({
       commit;
       if (!isExisting) {
         commit("ADD_TO_CART", payload);
-        commit("SET_CART", true);
-        // setTimeout(() => {
-        //   commit("SET_CART", false);
-        // }, 2000);
       } else {
         isExisting.amount += payload.amount;
       }
     },
+    deleteCartItem({ state, commit }, payload) {
+      const index = state.cart.findIndex(
+        (cartItem) => cartItem.item.name == payload.item.name
+      );
 
+      commit("REMOVE_CART_ITEM", index);
+    },
     removeProductFromCart({ commit }, payload) {
       commit;
       console.log(payload);
@@ -90,6 +96,9 @@ export default new Vuex.Store({
       }, 0);
 
       return (total - total * state.discount).toFixed(2);
+    },
+    getCartLength(state) {
+      return state.cart.length;
     },
   },
   modules: {},

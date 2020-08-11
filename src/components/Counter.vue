@@ -16,8 +16,10 @@ export default {
   },
   methods: {
     decrementCounter() {
-      this.counter--;
-      this.$emit("updateItemCount", this.counter);
+      if (this.counter >= 1) {
+        this.counter--;
+        this.$emit("updateItemCount", this.counter);
+      }
     },
     incrementCounter() {
       this.counter++;

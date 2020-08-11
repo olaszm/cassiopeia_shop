@@ -16,7 +16,7 @@
 </template>
 
 <script>
-// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Counter from "@/components/Counter";
 export default {
   props: ["item"],
@@ -27,6 +27,17 @@ export default {
     return {
       itemAmount: 0,
     };
+  },
+  methods: {
+    ...mapActions(["deleteCartItem"]),
+  },
+  watch: {
+    itemAmount(newVal) {
+      this.item.amount = newVal;
+      if (newVal == 0) {
+        this.deleteCartItem(this.item);
+      }
+    },
   },
 };
 </script>

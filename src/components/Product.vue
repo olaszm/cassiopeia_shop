@@ -64,7 +64,9 @@ export default {
   methods: {
     ...mapActions(["addProductToCart"]),
     addToCart(item) {
-      this.addProductToCart({ item, amount: this.itemCount });
+      if (this.itemCount >= 1) {
+        this.addProductToCart({ item, amount: this.itemCount });
+      }
     },
   },
 };

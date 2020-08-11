@@ -7,8 +7,11 @@
           <i @click="closeModal" class="fas fa-times icon"></i>
         </div>
 
-        <div class="cart__content">
+        <div class="cart__content" v-if="cart.length">
           <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
+        </div>
+        <div v-else class="cart__content">
+          <h3>Cart is empty</h3>
         </div>
         <div class="cart__footer">
           <div class="cart__discount">
@@ -22,7 +25,7 @@
             <span>£{{getCartTotalPrice}}</span>
           </div>
           <div class="cart__checkout">
-            <BaseButton class="btn-fill btn-wide">
+            <BaseButton class="btn-fill btn-wide" @click.native="checkOut">
               <h3 slot="button-text">Checkout</h3>
             </BaseButton>
           </div>
@@ -49,8 +52,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCartTotalPrice"]),
+    ...mapGetters(["getCartTotalPrice", "getCartLength"]),
     ...mapState(["_isCartOpen", "cart"]),
+    createRandomID() {
+      return Math.floor(Math.random() * 1000);
+    },
   },
   methods: {
     ...mapActions(["isCartOpen", "applyDiscount"]),
@@ -61,6 +67,10 @@ export default {
     },
     closeModal() {
       this.isCartOpen(false);
+    },
+    checkOut() {
+      this.$router.push(`/checkout/${this.createRandomID}`);
+      this.closeModal();
     },
   },
 };

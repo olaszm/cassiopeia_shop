@@ -41,12 +41,12 @@
       </div>
       <div class="checkout__product_summary">
         <div class="checkout__product__items">
-          <h3>Order Total: 2</h3>
-          <CartProduct />
+          <h3>Total items: {{getCartLength}}</h3>
+          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
         <div class="cart__price_total">
           <span>Total:</span>
-          <span>£150</span>
+          <span>£{{getCartTotalPrice}}</span>
         </div>
       </div>
     </div>
@@ -58,6 +58,7 @@ import BaseInput from "@/components/BaseInput";
 import BaseButton from "@/components/BaseButton";
 import BaseSelectInput from "@/components/BaseSelectInput";
 import CartProduct from "@/components/CartProduct";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     BaseInput,
@@ -74,6 +75,10 @@ export default {
       // const container = e.target.parentNode.parentNode.parentNode
       // container.classList.toggle("radio__container-selected");
     },
+  },
+  computed: {
+    ...mapState(["cart"]),
+    ...mapGetters(["getCartTotalPrice", "getCartLength"]),
   },
 };
 </script>
