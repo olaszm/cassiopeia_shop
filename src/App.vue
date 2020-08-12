@@ -1,8 +1,10 @@
 <template>
-  <div class="app">
+  <div id="app" class="app">
     <div class="main" @click.stop="closeCart">
       <Nav />
-      <router-view class="main-content" :key="$route.fullPath" />
+      <transition name="fade">
+        <router-view class="main-content" :key="$route.fullPath" />
+      </transition>
       <Footer />
     </div>
     <Cart />
@@ -55,7 +57,16 @@ main {
 }
 
 .main-content {
-  height: 100vh;
+  min-height: 100%;
   margin: 2rem auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  // transform: translateX(100%);
 }
 </style>

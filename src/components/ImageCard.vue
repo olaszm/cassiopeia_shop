@@ -1,21 +1,21 @@
 <template>
-  <router-link :to="`/product/${item.id}`">
-    <div class="card">
-      <div class="card__image-container">
-        <img :src="item.item.src.fields.file.url" alt />
-        <BaseButton class="btn-fill btn-circle arrow">
-          <i slot="button-text" class="fas fa-long-arrow-alt-right"></i>
-        </BaseButton>
-      </div>
-      <div class="card__content">
-        <h4>{{ item.item.name }}</h4>
-        <p>
-          <span class="caption">{{ item.item.price }}</span>
-          <span v-if="item.item.old_price != 0" class="caption text-strike">{{
-            item.item.old_price
-          }}</span>
-        </p>
-      </div>
+  <router-link class="card" :to="`/product/${item.id}`">
+    <div class="card__image-container">
+      <img :src="item.item.src.fields.file.url" alt />
+      <BaseButton class="btn-fill btn-circle arrow">
+        <i slot="button-text" class="fas fa-long-arrow-alt-right"></i>
+      </BaseButton>
+    </div>
+    <div class="card__content">
+      <h4>{{ item.item.name }}</h4>
+      <p>
+        <span class="caption">{{ item.item.price }}</span>
+        <span v-if="item.item.old_price != 0" class="caption text-strike">
+          {{
+          item.item.old_price
+          }}
+        </span>
+      </p>
     </div>
   </router-link>
 </template>
@@ -40,8 +40,9 @@ export default {
   text-align: center;
   cursor: pointer;
   transition: box-shadow 250ms ease;
-  width: 260px;
-  &:hover {
+  width: 100%;
+  &:hover,
+  &:focus-within {
     box-shadow: 3px 7px 15px $light-grey;
     .arrow {
       opacity: 1;
@@ -51,7 +52,7 @@ export default {
 
 .card__image-container {
   height: 260px;
-  width: 260px;
+  width: 100%;
   position: relative;
   img {
     height: 100%;

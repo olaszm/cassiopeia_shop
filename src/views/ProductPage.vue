@@ -1,25 +1,30 @@
 <template>
   <div class="wrapper">
-    <Product :product="product" />
-    <!-- <HomeSection>
-      <h3 slot="section-title">Items you might like</h3>
-    </HomeSection> -->
+    <div class="inner">
+      <Product :product="product" />
+      <HomeSection :items="getDeals">
+        <h3 slot="section-title">Indoor plants</h3>
+      </HomeSection>
+    </div>
   </div>
 </template>
 
 <script>
 import Product from "@/components/Product";
-// import HomeSection from "@/components/HomeSection";
-import { mapActions } from "vuex";
+import HomeSection from "@/components/HomeSection";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     Product,
-    // HomeSection,
+    HomeSection,
   },
   data() {
     return {
       product: "",
     };
+  },
+  computed: {
+    ...mapGetters(["getDeals"]),
   },
   methods: {
     ...mapActions(["getProductById"]),
@@ -31,4 +36,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.inner {
+  height: 100%;
+}
+</style>

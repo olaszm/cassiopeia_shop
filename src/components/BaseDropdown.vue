@@ -1,12 +1,11 @@
 <template>
   <div class="dropdown">
     <div class="title">
-      <h3>Text</h3>
+      <slot name="title"></slot>
       <i class="fas fa-sort-down"></i>
     </div>
     <ul class="list">
-      <li>Newest</li>
-      <li>Oldest</li>
+      <slot name="list-item"></slot>
     </ul>
   </div>
 </template>
@@ -16,12 +15,18 @@ export default {};
 </script>
 
 <style lang='scss' scoped>
+@import "@/style/_variables.scss";
+
 .dropdown {
   font-size: 14px;
   position: relative;
   margin-right: 2rem;
   cursor: pointer;
-  &:hover {
+  height: 100%;
+  width: 100%;
+  &:hover,
+  &:focus,
+  &:focus-within {
     .list {
       opacity: 1;
       pointer-events: all;
@@ -31,30 +36,37 @@ export default {};
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    width: 100%;
+    h3 {
+      width: 100%;
+      white-space: nowrap;
+    }
     i {
       margin: 0 1rem;
     }
   }
   .list {
+    padding: 0.5rem 0;
     pointer-events: none;
     opacity: 0;
     position: absolute;
     border-radius: 4px;
-    bottom: -100%;
+    top: calc(100% - 0.1rem);
     left: 0;
     right: 0;
     width: 150px;
-    background-color: white;
+    background-color: $snow;
     z-index: 10;
     transition: all 300ms ease;
-    transform: translate(0, 100%);
+    box-shadow: $box-shadow;
     li {
-      padding: 1em 0.4em;
+      padding: 1em 0.2em;
+      border-radius: 4px;
       height: 100%;
       width: 100%;
       cursor: pointer;
       &:hover {
-        background-color: lightgrey;
+        background-color: $light-grey;
       }
     }
   }

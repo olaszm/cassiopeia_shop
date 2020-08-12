@@ -34,6 +34,10 @@ button {
   &:hover {
     box-shadow: 3px 7px 15px rgba(0, 0, 0, 0.3);
   }
+  &:disabled {
+    background-color: $light-grey;
+    box-shadow: none;
+  }
 }
 
 .btn-fill {

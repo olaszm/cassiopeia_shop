@@ -34,7 +34,7 @@ export default {
   watch: {
     itemAmount(newVal) {
       this.item.amount = newVal;
-      if (newVal == 0) {
+      if (newVal === 0) {
         this.deleteCartItem(this.item);
       }
     },

@@ -12,11 +12,18 @@ export default new Vuex.Store({
     cart: [],
     totalProducts: 0,
     discount: 0,
+    filters: {
+      // priceOrder: "",
+      place: "",
+      size: "medium",
+      // isCactus: "cactus",
+    },
   },
   mutations: {
     SET_CART(state, payload) {
       state._isCartOpen = payload;
     },
+
     SET_DISCOUNT(state, payload) {
       state.discount = payload;
     },
@@ -51,10 +58,9 @@ export default new Vuex.Store({
       const isExisting = state.cart.find(
         (cartItem) => cartItem.item.name == payload.item.name
       );
-
-      commit;
       if (!isExisting) {
         commit("ADD_TO_CART", payload);
+        payload.item.isInCart = true;
       } else {
         isExisting.amount += payload.amount;
       }
@@ -63,7 +69,10 @@ export default new Vuex.Store({
       const index = state.cart.findIndex(
         (cartItem) => cartItem.item.name == payload.item.name
       );
-
+      const item = state.cart.find(
+        (cartItem) => cartItem.item.name == payload.item.name
+      );
+      item.item.isInCart = false;
       commit("REMOVE_CART_ITEM", index);
     },
     removeProductFromCart({ commit }, payload) {
@@ -73,7 +82,6 @@ export default new Vuex.Store({
     async getItems({ commit }) {
       const resp = await client.getEntries({
         content_type: "product",
-        order: "sys.createdAt",
       });
 
       commit("SET_TOTAL_PRODUCT", resp.total);
@@ -99,6 +107,12 @@ export default new Vuex.Store({
     },
     getCartLength(state) {
       return state.cart.length;
+    },
+    filteredProducts(state) {
+      return state.products;
+    },
+    getDeals(state) {
+      return state.products.filter(({ item }) => item.tags.includes("indoor"));
     },
   },
   modules: {},

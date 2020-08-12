@@ -62,13 +62,16 @@ footer {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  @media (max-width: $mobile) {
+    flex-direction: column;
+  }
 }
 
 .footer__column {
   height: 100%;
   h3 {
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
     margin: 1.5rem 0;
   }
 }

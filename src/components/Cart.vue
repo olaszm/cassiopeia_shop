@@ -85,9 +85,14 @@ export default {
   right: 0;
   height: 100%;
   background: white;
-  width: 30%;
+  min-width: 450px;
+  width: 35%;
   box-shadow: -5px 10px 50px rgba($color: black, $alpha: 0.3);
   transition: all 300ms ease-in;
+  @media (max-width: $mobile) {
+    width: 100%;
+    min-width: unset;
+  }
 }
 
 .cart__inner {
@@ -148,10 +153,18 @@ export default {
   }
   .cart__discount {
     margin: 4rem 0;
-    height: 40px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    input,
+    button {
+      height: 40px;
+    }
+    @media (min-width: $widescreen) {
+      flex-wrap: nowrap;
+    }
   }
 }
 

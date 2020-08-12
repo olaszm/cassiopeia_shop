@@ -31,7 +31,11 @@
           </div>
         </div>-->
         <div class="product__buttons">
-          <BaseButton @click.native="addToCart(product)" class="btn-fill btn-wide">
+          <BaseButton
+            :disabled="isInCart"
+            @click.native="addToCart(product)"
+            class="btn-fill btn-wide"
+          >
             <span slot="button-text">Add to cart</span>
           </BaseButton>
         </div>
@@ -57,8 +61,10 @@ export default {
   },
   computed: {
     getProductPicture() {
-      console.log(this.$props.product.src.fields.file.url);
       return this.$props.product.src.fields.file.url;
+    },
+    isInCart() {
+      return this.$props.product.isInCart;
     },
   },
   methods: {
@@ -75,16 +81,21 @@ export default {
 <style lang="scss" scoped>
 @import "@/style/_variables.scss";
 .product {
-  //   height: 100%;
+  // height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-rows: 1fr;
+  gap: 5rem;
   place-items: space-between;
+  @media (max-width: $mobile) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 300px 1fr;
+  }
 }
 
 .product__image {
-  height: 550px;
-  width: 550px;
+  max-height: 550px;
+  max-width: 550px;
   img {
     height: 100%;
     width: 100%;
