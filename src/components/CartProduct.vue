@@ -45,6 +45,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@import "@/style/_variables.scss";
+
 .cart__product {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -64,6 +66,16 @@ export default {
       justify-content: space-between;
       font-weight: 500;
       margin-bottom: 2rem;
+      @media (max-width: $mobile) {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0;
+        span {
+          &:last-child {
+            margin: 0.5em 0;
+          }
+        }
+      }
       span {
         display: inline-block;
       }
@@ -76,6 +88,10 @@ export default {
       height: 150px;
       width: 150px;
       object-fit: cover;
+      @media (max-width: $mobile) {
+        height: 90px;
+        width: 90px;
+      }
     }
   }
 }

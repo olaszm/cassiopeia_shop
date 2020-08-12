@@ -91,6 +91,10 @@ export default {
   justify-content: space-between;
   width: 100%;
   gap: 5rem;
+  @media (max-width: $mobile) {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 .checkout__form {
@@ -112,11 +116,15 @@ export default {
       height: 45px;
     }
   }
+  @media (max-width: $mobile) {
+    order: 2;
+  }
 }
 
 .checkout__buttons {
   display: flex;
   justify-content: space-between;
+
   margin-top: 5rem;
   position: relative;
   &::before {
@@ -129,6 +137,16 @@ export default {
     margin: 0 auto;
     opacity: 0.4;
     background-color: $grey;
+  }
+
+  @media (max-width: $mobile) {
+    flex-wrap: wrap;
+    justify-content: center;
+    button {
+      margin: 1rem 0;
+      width: 100%;
+      height: 35px;
+    }
   }
 }
 
