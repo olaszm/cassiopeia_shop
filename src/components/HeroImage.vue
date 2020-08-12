@@ -24,10 +24,15 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@import "@/style/_variables.scss";
 .hero {
   height: 480px;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
   position: relative;
+  @media (max-width: $mobile) {
+    width: 100%;
+  }
   img {
     height: 100%;
     width: 100%;

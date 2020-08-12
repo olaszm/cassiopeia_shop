@@ -1,13 +1,15 @@
 <template>
-  <section class="home wrapper">
+  <div>
     <HeroImage />
-    <HomeSection v-if="newArrivals.length" :items="newArrivals">
-      <h3 slot="section-title">New Arrivals</h3>
-    </HomeSection>
-    <HomeSection v-if="deals.length" :items="deals">
-      <h3 slot="section-title">Indoor plants</h3>
-    </HomeSection>
-  </section>
+    <section class="home wrapper">
+      <HomeSection v-if="newArrivals.length" :items="newArrivals">
+        <h3 slot="section-title">New Arrivals</h3>
+      </HomeSection>
+      <HomeSection v-if="deals.length" :items="deals">
+        <h3 slot="section-title">Indoor plants</h3>
+      </HomeSection>
+    </section>
+  </div>
 </template>
 
 <script>

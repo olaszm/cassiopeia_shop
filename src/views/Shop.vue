@@ -8,7 +8,7 @@
             <li slot="list-item" @click="priceOrderChange('asc')">Low to high</li>
             <li slot="list-item" @click="priceOrderChange('desc')">High to low</li>
           </BaseDropdown>
-          <BaseDropdown>
+          <!-- <BaseDropdown>
             <h3 slot="title">Product type</h3>
             <li slot="list-item">Indoor</li>
             <li slot="list-item">Outdoor</li>
@@ -18,7 +18,7 @@
             <li slot="list-item">£0-£10</li>
             <li slot="list-item">£10-£25</li>
             <li slot="list-item">£25-£50</li>
-          </BaseDropdown>
+          </BaseDropdown>-->
         </ul>
         <div class="shop_total_items">
           <p>{{ totalProducts >=1 ? `${totalProducts} items` : `${totalProducts} item` }}</p>
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      filters: false,
+      filters: true,
     };
   },
   methods: {

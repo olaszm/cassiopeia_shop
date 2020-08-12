@@ -1,18 +1,20 @@
 <template>
-  <div class="cart__product">
-    <div class="cart__product_image_container">
-      <img :src="item.item.src.fields.file.url" alt />
-    </div>
-    <div class="cart__product_details">
-      <div class="cart__product_details_name">
-        <span>{{item.item.name}}</span>
-        <span>{{item.item.price}}</span>
+  <transition name="slide-in">
+    <div class="cart__product">
+      <div class="cart__product_image_container">
+        <img :src="item.item.src.fields.file.url" alt />
       </div>
-      <keep-alive>
-        <Counter :value="item.amount" v-model="itemAmount" />
-      </keep-alive>
+      <div class="cart__product_details">
+        <div class="cart__product_details_name">
+          <span>{{item.item.name}}</span>
+          <span>{{item.item.price}}</span>
+        </div>
+        <keep-alive>
+          <Counter :value="item.amount" v-model="itemAmount" />
+        </keep-alive>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -25,7 +27,7 @@ export default {
   },
   data() {
     return {
-      itemAmount: 0,
+      itemAmount: 1,
     };
   },
   methods: {
@@ -76,5 +78,14 @@ export default {
       object-fit: cover;
     }
   }
+}
+
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-in-enter, .slide-in-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(100%);
 }
 </style>
