@@ -98,10 +98,11 @@ export default {
 
 .cart__inner {
   width: 90%;
-  // height: 100%;
   margin: 3rem auto;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  @media (max-width: $mobile) {
+    margin: 1rem auto;
+  }
   .cart__header {
     height: 50px;
     display: flex;
@@ -118,18 +119,30 @@ export default {
     &::after {
       content: "";
       position: absolute;
-      bottom: -25px;
+      bottom: -10px;
       height: 1px;
       width: 100%;
       margin: 0 auto;
       opacity: 0.4;
       background-color: $grey;
     }
+
+    @media (max-width: $mobile) {
+      h3 {
+        font-size: 1.2rem;
+      }
+      i {
+        font-size: 1rem;
+      }
+    }
   }
   .cart__content {
     height: 300px;
-    margin: 2rem 0;
+    margin: 1.2rem 0;
     overflow-y: scroll;
+    @media (max-width: $mobile) {
+      height: 220px;
+    }
   }
 }
 
@@ -141,7 +154,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin: 1rem 0;
+    margin: 2rem 0;
     font-size: 1.2rem;
     font-weight: 500;
     text-align: right;
