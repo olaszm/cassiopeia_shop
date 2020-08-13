@@ -13,10 +13,6 @@ export default new Vuex.Store({
     cart: [],
     totalProducts: 0,
     discount: 0,
-    filters: {
-      place: "",
-      size: "medium",
-    },
   },
   mutations: {
     SET_CART(state, payload) {
@@ -41,12 +37,16 @@ export default new Vuex.Store({
     SET_PRODUCT(state, payload) {
       state.product = payload;
     },
+    SET_CART_PRODUCT_AMOUNT(state, { index, amount }) {
+      state.cart[index] = Object.assign({}, state.cart[index], { amount });
+      state.cart = [...state.cart];
+    },
   },
 
   actions: {
-    changeProductAmount({ state }, { id, amount }) {
-      const item = state.products.find((item) => item.id == id);
-      item.amount = amount;
+    changeProductAmount({ commit, state }, payload) {
+      const index = state.cart.findIndex((item) => item.id == payload.id);
+      commit("SET_CART_PRODUCT_AMOUNT", { index, amount: payload.amount });
     },
     applyDiscount({ commit }, discount) {
       commit("SET_DISCOUNT", discount);
@@ -67,8 +67,6 @@ export default new Vuex.Store({
 
       if (!isExisting) {
         commit("ADD_TO_CART", payload);
-      } else {
-        isExisting.amount += payload.amount;
       }
     },
     deleteCartItem({ state, commit }, payload) {
@@ -77,10 +75,7 @@ export default new Vuex.Store({
       );
       commit("REMOVE_CART_ITEM", index);
     },
-    removeProductFromCart({ commit }, payload) {
-      commit;
-      console.log(payload);
-    },
+
     async getItems({ commit }) {
       const resp = await client.getEntries({
         content_type: "product",
@@ -108,18 +103,14 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getCartTotalPrice(state) {
+    getCartTotalPrice: (state) => {
       const total = state.cart.reduce((acc, curr) => {
         return (acc += curr.price * curr.amount);
       }, 0);
-
       return (total - total * state.discount).toFixed(2);
     },
     getCartLength(state) {
       return state.cart.length;
-    },
-    filteredProducts(state) {
-      return state.products;
     },
     getDeals(state) {
       return state.products.filter((item) => item.tags.includes("indoor"));

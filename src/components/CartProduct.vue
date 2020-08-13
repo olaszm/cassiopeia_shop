@@ -35,10 +35,9 @@ export default {
   },
   watch: {
     itemAmount(newVal) {
-      this.item.amount = newVal;
       this.changeProductAmount({
         id: this.item.id,
-        amount: this.item.amount,
+        amount: newVal,
       });
       if (newVal === 0) {
         this.deleteCartItem(this.item);

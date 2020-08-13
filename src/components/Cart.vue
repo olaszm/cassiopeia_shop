@@ -139,7 +139,8 @@ export default {
   .cart__content {
     height: 300px;
     margin: 1.2rem 0;
-    overflow-y: scroll;
+    overflow-y: auto;
+    // scrollbar-width: none;
     @media (max-width: $mobile) {
       height: 220px;
     }
