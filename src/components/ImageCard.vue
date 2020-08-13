@@ -1,18 +1,18 @@
 <template>
   <router-link class="card" :to="`/product/${item.id}`">
     <div class="card__image-container">
-      <img :src="item.item.src.fields.file.url" alt />
+      <img :src="`https:${item.src.fields.file.url}`" alt />
       <BaseButton class="btn-fill btn-circle arrow">
         <i slot="button-text" class="fas fa-long-arrow-alt-right"></i>
       </BaseButton>
     </div>
     <div class="card__content">
-      <h4>{{ item.item.name }}</h4>
+      <h4>{{ item.name }}</h4>
       <p>
-        <span class="caption">{{ item.item.price }}</span>
-        <span v-if="item.item.old_price != 0" class="caption text-strike">
+        <span class="caption">{{ item.price }}</span>
+        <span v-if="item.old_price != 0" class="caption text-strike">
           {{
-          item.item.old_price
+          item.old_price
           }}
         </span>
       </p>
@@ -22,10 +22,18 @@
 
 <script>
 import BaseButton from "@/components/BaseButton";
+import { mapActions } from "vuex";
 export default {
   props: ["item"],
   components: {
     BaseButton,
+  },
+  methods: {
+    ...mapActions(["addProductToCart"]),
+    addToCart(item) {
+      item.amount = 1;
+      this.addProductToCart(item);
+    },
   },
 };
 </script>

@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="products_gallery">
-        <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
+        <ImageCard v-for="(item, index) in products" :key="index" :item="item" />
       </div>
       <div class="showmore-btn-container">
         <BaseButton class="btn-fill">
@@ -40,12 +40,11 @@
 import ImageCard from "@/components/ImageCard";
 import BaseButton from "@/components/BaseButton";
 import BaseDropdown from "@/components/BaseDropdown";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: { ImageCard, BaseButton, BaseDropdown },
   computed: {
     ...mapState(["products", "totalProducts"]),
-    ...mapGetters(["filteredProducts"]),
   },
   data() {
     return {
@@ -54,9 +53,6 @@ export default {
   },
   methods: {
     ...mapActions(["changePriceOrder"]),
-    priceOrderChange(order) {
-      console.log(order);
-    },
   },
 };
 </script>
@@ -96,7 +92,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 50%;
     li {
       margin-right: 5rem;
     }

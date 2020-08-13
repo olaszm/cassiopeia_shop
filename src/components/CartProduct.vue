@@ -1,17 +1,17 @@
 <template>
   <transition name="slide-in">
     <div class="cart__product">
-      <div class="cart__product_image_container">
-        <img :src="item.item.src.fields.file.url" alt />
-      </div>
+      <router-link :to="`/product/${item.id}`">
+        <div class="cart__product_image_container">
+          <img :src="item.src.fields.file.url" alt />
+        </div>
+      </router-link>
       <div class="cart__product_details">
         <div class="cart__product_details_name">
-          <span>{{item.item.name}}</span>
-          <span>{{item.item.price}}</span>
+          <span>{{item.name}}</span>
+          <span>{{item.price}}</span>
         </div>
-        <keep-alive>
-          <Counter :value="item.amount" v-model="itemAmount" />
-        </keep-alive>
+        <Counter :value="item.amount" v-model="itemAmount" />
       </div>
     </div>
   </transition>
@@ -31,11 +31,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["deleteCartItem"]),
+    ...mapActions(["deleteCartItem", "changeProductAmount"]),
   },
   watch: {
     itemAmount(newVal) {
       this.item.amount = newVal;
+      this.changeProductAmount({
+        id: this.item.id,
+        amount: this.item.amount,
+      });
       if (newVal === 0) {
         this.deleteCartItem(this.item);
       }

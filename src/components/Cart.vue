@@ -81,14 +81,15 @@ export default {
 .cart__container {
   position: absolute;
   top: 0;
-  bottom: 0;
-  right: 0;
+  // bottom: 0;
   height: 100%;
+  right: 0;
   background: white;
   min-width: 450px;
   width: 35%;
   box-shadow: -5px 10px 50px rgba($color: black, $alpha: 0.3);
   transition: all 300ms ease-in;
+
   @media (max-width: $mobile) {
     width: 100%;
     min-width: unset;
@@ -97,15 +98,16 @@ export default {
 
 .cart__inner {
   width: 90%;
-  height: 100%;
+  // height: 100%;
   margin: 3rem auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   .cart__header {
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
-    margin-bottom: 5rem;
     h3 {
       font-size: 2rem;
     }
@@ -124,16 +126,22 @@ export default {
       background-color: $grey;
     }
   }
+  .cart__content {
+    height: 300px;
+    margin: 2rem 0;
+    overflow-y: scroll;
+  }
 }
 
 .cart__footer {
+  margin: 2rem 0;
   //   display: flex;
   .cart__price_total {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin: 2rem 0;
+    margin: 1rem 0;
     font-size: 1.2rem;
     font-weight: 500;
     text-align: right;
@@ -152,7 +160,7 @@ export default {
     }
   }
   .cart__discount {
-    margin: 4rem 0;
+    margin: 1rem 0;
     height: 100%;
     display: flex;
     align-items: center;

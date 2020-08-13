@@ -38,10 +38,6 @@ export default {
     },
   },
   created() {
-    // axios.get("./items.json").then((res) => {
-    //   const { items } = res.data;
-    //   this.getProducts(items);
-    // });
     this.getItems();
   },
 };

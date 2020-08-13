@@ -1,7 +1,7 @@
 <template>
   <div class="product">
     <div class="product__image">
-      <img :src="product.src.fields.file.url" alt />
+      <img loading="lazy" :src="product.src.fields.file.url" alt />
     </div>
     <div class="product__details">
       <div class="product__name">
@@ -32,7 +32,7 @@
         </div>-->
         <div class="product__buttons">
           <BaseButton
-            :disabled="isInCart"
+            :disabled="isInCart(this.$route.params.id)"
             @click.native="addToCart(product)"
             class="btn-fill btn-wide"
           >
@@ -47,7 +47,7 @@
 <script>
 import BaseButton from "@/components/BaseButton";
 import Counter from "@/components/Counter";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["product"],
   data() {
@@ -63,15 +63,14 @@ export default {
     getProductPicture() {
       return this.$props.product.src.fields.file.url;
     },
-    isInCart() {
-      return this.$props.product.isInCart;
-    },
+    ...mapGetters(["isInCart"]),
   },
   methods: {
     ...mapActions(["addProductToCart"]),
     addToCart(item) {
       if (this.itemCount >= 1) {
-        this.addProductToCart({ item, amount: this.itemCount });
+        item.amount = this.itemCount;
+        this.addProductToCart(item);
       }
     },
   },

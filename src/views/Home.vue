@@ -26,14 +26,14 @@ export default {
   computed: {
     ...mapState(["products"]),
     newArrivals() {
-      return this.products.filter(({ item }) => item.tags.includes("new"));
+      return this.products.filter((item) => item.tags.includes("new"));
     },
     deals() {
-      return this.products.filter(({ item }) => item.tags.includes("indoor"));
+      return this.products.filter((item) => item.tags.includes("indoor"));
     },
   },
   methods: {
-    ...mapActions(["getProductsByTag"]),
+    ...mapActions(["getProductsByTag", "getItems"]),
   },
 };
 </script>
