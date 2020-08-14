@@ -20,9 +20,15 @@
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
           </div>
-          <div class="cart__price_total">
-            <span>Total:</span>
-            <span>£{{getCartTotalPrice}}</span>
+          <div class="cart__price">
+            <div class="cart__price__delivery" v-if="getDelivery > 0">
+              <span>Delivery</span>
+              <span>£{{getDelivery}}</span>
+            </div>
+            <div class="cart__price__total">
+              <span>Total:</span>
+              <span>£{{getCartTotalPrice}}</span>
+            </div>
           </div>
           <div class="cart__checkout">
             <BaseButton class="btn-fill btn-wide" @click.native="checkOut">
@@ -52,7 +58,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCartTotalPrice", "getCartLength"]),
+    ...mapGetters(["getCartTotalPrice", "getCartLength", "getDelivery"]),
     ...mapState(["_isCartOpen", "cart"]),
     createRandomID() {
       return Math.floor(Math.random() * 1000);
@@ -97,7 +103,7 @@ export default {
 }
 
 .cart__inner {
-  width: 90%;
+  width: 85%;
   margin: 3rem auto;
   height: 100%;
   @media (max-width: $mobile) {
@@ -140,7 +146,7 @@ export default {
     height: 300px;
     margin: 1.2rem 0;
     overflow-y: auto;
-    // scrollbar-width: none;
+    scrollbar-width: none;
     @media (max-width: $mobile) {
       height: 220px;
     }
@@ -149,28 +155,40 @@ export default {
 
 .cart__footer {
   margin: 2rem 0;
-  //   display: flex;
-  .cart__price_total {
+  .cart__price {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    margin: 2rem 0;
-    font-size: 1.2rem;
+    margin: 1rem 0;
+
     font-weight: 500;
     text-align: right;
     position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      //   bottom: -25px;
-      left: 0;
-      top: -15px;
-      height: 1px;
+
+    & > div {
+      display: flex;
+      font-size: 1rem;
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
-      margin: 0 auto;
-      opacity: 0.4;
-      background-color: $grey;
+      margin: 0.5em 0;
+    }
+    .cart__price__total {
+      font-size: 1.2rem;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 1px;
+        width: 100%;
+        margin: 0 auto;
+        opacity: 0.4;
+        background-color: $grey;
+      }
     }
   }
   .cart__discount {

@@ -7,22 +7,28 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  props: ["value"],
+  props: ["value", "id"],
   data() {
     return {
       counter: this.$props.value,
     };
   },
   methods: {
+    ...mapActions(["deleteCartItem", "changeProductAmount"]),
     decrementCounter() {
-      if (this.counter >= 1) {
+      if (this.counter > 1) {
         this.counter--;
+        this.changeProductAmount({ id: this.id, amount: this.counter });
         this.$emit("updateItemCount", this.counter);
+      } else {
+        this.deleteCartItem(this.id);
       }
     },
     incrementCounter() {
       this.counter++;
+      this.changeProductAmount({ id: this.id, amount: this.counter });
       this.$emit("updateItemCount", this.counter);
     },
   },

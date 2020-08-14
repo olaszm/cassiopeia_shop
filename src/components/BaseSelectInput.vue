@@ -1,5 +1,5 @@
 <template>
-  <div class="radio__container" :class="{'radio__container-selected' : active == title}">
+  <div class="radio__container" :class="{'radio__container-selected' : active.name == title}">
     <label class="radio">
       <span class="radio__input">
         <input type="radio" name="radio" :value="title" @click="updateActiveDelivery" />
@@ -7,7 +7,7 @@
       </span>
       <span class="radio__label">
         <span>{{title}}</span>
-        <span>{{price}}</span>
+        <span>£{{price}}</span>
       </span>
     </label>
   </div>
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     updateActiveDelivery() {
-      this.$emit("updateDelivery", this.value);
+      this.$emit("updateDelivery", { name: this.title, price: this.price });
     },
   },
 };

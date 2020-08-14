@@ -9,14 +9,14 @@
             <legend>Delivery method</legend>
             <BaseSelectInput
               title="DHL"
-              price="£5.99"
+              price="5.99"
               value="DHL"
               v-model="activeDelivery"
               :active="activeDelivery"
             />
             <BaseSelectInput
               title="Hermex"
-              price="£4.99"
+              price="4.99"
               value="Hermex"
               v-model="activeDelivery"
               :active="activeDelivery"
@@ -31,22 +31,32 @@
           </fieldset>
         </form>
         <div class="checkout__buttons">
-          <BaseButton class="btn-outline btn-wide">
-            <h3 slot="button-text">Back</h3>
-          </BaseButton>
-          <BaseButton class="btn-fill btn-wide">
-            <h3 slot="button-text">Payment</h3>
-          </BaseButton>
+          <router-link to="/shop/plants">
+            <BaseButton class="btn-outline btn-wide">
+              <h3 slot="button-text">Continue Shopping</h3>
+            </BaseButton>
+          </router-link>
+          <router-link to="/">
+            <BaseButton class="btn-fill btn-wide">
+              <h3 slot="button-text">Payment</h3>
+            </BaseButton>
+          </router-link>
         </div>
       </div>
-      <div class="checkout__product_summary">
+      <div class="checkout__product__summary">
         <div class="checkout__product__items">
           <h3>Total items: {{getCartLength}}</h3>
           <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
-        <div class="cart__price_total">
-          <span>Total:</span>
-          <span>£{{getCartTotalPrice}}</span>
+        <div class="cart__price">
+          <div class="cart__price__delivery">
+            <span>Delivery</span>
+            <span>£{{activeDelivery.price}}</span>
+          </div>
+          <div class="cart__price__total">
+            <span>Total:</span>
+            <span>£{{getCartTotalPrice}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -58,7 +68,7 @@ import BaseInput from "@/components/BaseInput";
 import BaseButton from "@/components/BaseButton";
 import BaseSelectInput from "@/components/BaseSelectInput";
 import CartProduct from "@/components/CartProduct";
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: {
     BaseInput,
@@ -67,17 +77,18 @@ export default {
     BaseButton,
   },
   data() {
-    return { activeDelivery: "" };
+    return { activeDelivery: this.$store.state.delivery };
   },
-  methods: {
-    onChange() {
-      console.log(this.getChecked);
-      // const container = e.target.parentNode.parentNode.parentNode
-      // container.classList.toggle("radio__container-selected");
+  watch: {
+    activeDelivery(newVal) {
+      this.setDelivery(newVal);
     },
   },
+  methods: {
+    ...mapActions(["setDelivery"]),
+  },
   computed: {
-    ...mapState(["cart"]),
+    ...mapState(["cart", "delivery"]),
     ...mapGetters(["getCartTotalPrice", "getCartLength"]),
   },
 };
@@ -91,7 +102,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   gap: 5rem;
-  @media (max-width: $mobile) {
+  @media (max-width: $tablet) {
     flex-direction: column;
     gap: 0;
   }
@@ -116,7 +127,7 @@ export default {
       height: 45px;
     }
   }
-  @media (max-width: $mobile) {
+  @media (max-width: $tablet) {
     order: 2;
   }
 }
@@ -124,9 +135,14 @@ export default {
 .checkout__buttons {
   display: flex;
   justify-content: space-between;
-
   margin-top: 5rem;
   position: relative;
+  button,
+  a {
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
   &::before {
     content: "";
     position: absolute;
@@ -142,7 +158,8 @@ export default {
   @media (max-width: $mobile) {
     flex-wrap: wrap;
     justify-content: center;
-    button {
+    button,
+    a {
       margin: 1rem 0;
       width: 100%;
       height: 35px;
@@ -150,7 +167,7 @@ export default {
   }
 }
 
-.checkout__product_summary {
+.checkout__product__summary {
   flex: 1;
   height: 100%;
   display: flex;
@@ -161,26 +178,40 @@ export default {
   border-radius: 4px;
 }
 
-.cart__price_total {
+.cart__price {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  margin: 2rem 0;
-  font-size: 1.2rem;
+  margin: 1rem 0;
+
   font-weight: 500;
   text-align: right;
   position: relative;
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -15px;
-    height: 1px;
+
+  & > div {
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    margin: 0 auto;
-    opacity: 0.4;
-    background-color: $grey;
+    margin: 0.5em 0;
+    &:last-child {
+      font-size: 1.2rem;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -10px;
+        height: 1px;
+        width: 100%;
+        margin: 0 auto;
+        opacity: 0.4;
+        background-color: $grey;
+      }
+    }
   }
 }
 </style>

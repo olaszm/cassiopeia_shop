@@ -24,6 +24,7 @@ button {
   border: none;
   border-radius: 4px;
   transition: all 250ms ease;
+  white-space: nowrap;
   cursor: pointer;
   &:focus {
     box-shadow: 3px 7px 15px rgba(0, 0, 0, 0.3);

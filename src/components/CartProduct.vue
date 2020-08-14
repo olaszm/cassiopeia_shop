@@ -11,14 +11,14 @@
           <span>{{item.name}}</span>
           <span>{{item.price}}</span>
         </div>
-        <Counter :value="item.amount" v-model="itemAmount" />
+        <Counter :value="getProductAmount(item.id)" :id="item.id" />
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Counter from "@/components/Counter";
 export default {
   props: ["item"],
@@ -26,23 +26,13 @@ export default {
     Counter,
   },
   data() {
-    return {
-      itemAmount: 1,
-    };
+    return {};
   },
   methods: {
     ...mapActions(["deleteCartItem", "changeProductAmount"]),
   },
-  watch: {
-    itemAmount(newVal) {
-      this.changeProductAmount({
-        id: this.item.id,
-        amount: newVal,
-      });
-      if (newVal === 0) {
-        this.deleteCartItem(this.item);
-      }
-    },
+  computed: {
+    ...mapGetters(["getProductAmount"]),
   },
 };
 </script>

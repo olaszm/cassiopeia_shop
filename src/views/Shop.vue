@@ -4,28 +4,23 @@
       <div class="shop_filters">
         <ul v-if="filters">
           <BaseDropdown>
-            <h3 slot="title">Price</h3>
-            <li slot="list-item" @click="priceOrderChange('asc')">Low to high</li>
-            <li slot="list-item" @click="priceOrderChange('desc')">High to low</li>
+            <h3 slot="title">Added</h3>
+            <li slot="list-item" @click="getItems('sys.createdAt')">Newest</li>
+            <li slot="list-item" @click="getItems('-sys.createdAt')">Oldest</li>
           </BaseDropdown>
-          <!-- <BaseDropdown>
-            <h3 slot="title">Product type</h3>
-            <li slot="list-item">Indoor</li>
-            <li slot="list-item">Outdoor</li>
-          </BaseDropdown>
+
           <BaseDropdown>
-            <h3 slot="title">Price Range</h3>
-            <li slot="list-item">£0-£10</li>
-            <li slot="list-item">£10-£25</li>
-            <li slot="list-item">£25-£50</li>
-          </BaseDropdown>-->
+            <h3 slot="title">Price</h3>
+            <li slot="list-item" @click="changePriceOrder('lowToHigh')">Low to high</li>
+            <li slot="list-item" @click="changePriceOrder('highToLow')">High to low</li>
+          </BaseDropdown>
         </ul>
         <div class="shop_total_items">
           <p>{{ totalProducts >=1 ? `${totalProducts} items` : `${totalProducts} item` }}</p>
         </div>
       </div>
       <div class="products_gallery">
-        <ImageCard v-for="(item, index) in products" :key="index" :item="item" />
+        <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
       </div>
       <div class="showmore-btn-container">
         <BaseButton class="btn-fill">
@@ -40,11 +35,12 @@
 import ImageCard from "@/components/ImageCard";
 import BaseButton from "@/components/BaseButton";
 import BaseDropdown from "@/components/BaseDropdown";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   components: { ImageCard, BaseButton, BaseDropdown },
   computed: {
-    ...mapState(["products", "totalProducts"]),
+    ...mapState(["totalProducts"]),
+    ...mapGetters(["filteredProducts"]),
   },
   data() {
     return {
@@ -52,7 +48,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["changePriceOrder"]),
+    ...mapActions(["changePriceOrder", "getItems"]),
   },
 };
 </script>
