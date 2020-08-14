@@ -13,6 +13,7 @@ export default new Vuex.Store({
     cart: [],
     totalProducts: 0,
     discount: 0,
+    _isDiscountUsed: false,
     priceOrder: "",
     delivery: {
       title: "",
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     SET_DELIVERY(state, payload) {
       state.delivery = payload;
     },
+    SET_IS_DISCOUNT_USED(state, payload) {
+      state._isDiscountUsed = payload;
+    },
   },
 
   actions: {
@@ -61,6 +65,7 @@ export default new Vuex.Store({
       commit("SET_CART_PRODUCT_AMOUNT", { index, amount: payload.amount });
     },
     applyDiscount({ commit }, discount) {
+      commit("SET_IS_DISCOUNT_USED", true);
       commit("SET_DISCOUNT", discount);
     },
     isCartOpen({ commit }, payload) {
@@ -148,6 +153,9 @@ export default new Vuex.Store({
     getDelivery: (state) => {
       return Number(state.delivery.price);
     },
+    getDiscount: (state, getters) => {
+      return (getters.getCartTotalPrice * state.discount).toFixed(2);
+    },
     getDeals(state) {
       return state.products.filter((item) => item.tags.includes("indoor"));
     },
@@ -162,6 +170,9 @@ export default new Vuex.Store({
       const prod = state.cart.find((item) => item.id === id);
 
       return prod.amount;
+    },
+    isDiscountUsed: (state) => {
+      return state._isDiscountUsed;
     },
   },
   modules: {},

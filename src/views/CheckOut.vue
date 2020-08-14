@@ -53,6 +53,10 @@
             <span>Delivery</span>
             <span>£{{activeDelivery.price}}</span>
           </div>
+          <div class="cart__price__discount" v-if="isDiscountUsed">
+            <span>Discount</span>
+            <span>-£{{getDiscount}}</span>
+          </div>
           <div class="cart__price__total">
             <span>Total:</span>
             <span>£{{getCartTotalPrice}}</span>
@@ -89,7 +93,12 @@ export default {
   },
   computed: {
     ...mapState(["cart", "delivery"]),
-    ...mapGetters(["getCartTotalPrice", "getCartLength"]),
+    ...mapGetters([
+      "getCartTotalPrice",
+      "getCartLength",
+      "getDiscount",
+      "isDiscountUsed",
+    ]),
   },
 };
 </script>

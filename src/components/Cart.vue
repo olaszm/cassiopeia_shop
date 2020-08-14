@@ -16,7 +16,7 @@
         <div class="cart__footer">
           <div class="cart__discount">
             <BaseInput placeholder="Use IAMBROKE for 10% off" v-model="promoCode" />
-            <BaseButton class="btn-outline" @click.native="applyDisc">
+            <BaseButton class="btn-outline" @click.native="applyDisc" :disabled="isDiscountUsed">
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
           </div>
@@ -24,6 +24,10 @@
             <div class="cart__price__delivery" v-if="getDelivery > 0">
               <span>Delivery</span>
               <span>£{{getDelivery}}</span>
+            </div>
+            <div class="cart__price__discount" v-if="isDiscountUsed">
+              <span>Discount</span>
+              <span>-£{{getDiscount}}</span>
             </div>
             <div class="cart__price__total">
               <span>Total:</span>
@@ -58,7 +62,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getCartTotalPrice", "getCartLength", "getDelivery"]),
+    ...mapGetters([
+      "getCartTotalPrice",
+      "getCartLength",
+      "getDelivery",
+      "isDiscountUsed",
+      "getDiscount",
+    ]),
     ...mapState(["_isCartOpen", "cart"]),
     createRandomID() {
       return Math.floor(Math.random() * 1000);
