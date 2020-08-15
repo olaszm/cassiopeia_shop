@@ -38,7 +38,7 @@ export default {
     },
   },
   created() {
-    this.getItems();
+    this.getItems({ type: "product" });
   },
 };
 </script>

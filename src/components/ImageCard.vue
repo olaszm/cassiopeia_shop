@@ -9,11 +9,9 @@
     <div class="card__content">
       <h4>{{ item.name }}</h4>
       <p>
-        <span class="caption">{{ item.price }}</span>
+        <span class="caption">£{{ item.price }}</span>
         <span v-if="item.old_price != 0" class="caption text-strike">
-          {{
-          item.old_price
-          }}
+          £{{ item.old_price }}
         </span>
       </p>
     </div>

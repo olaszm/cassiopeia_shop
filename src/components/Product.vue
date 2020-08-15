@@ -7,11 +7,9 @@
       <div class="product__name">
         <h3>{{ product.name }}</h3>
         <h2>
-          {{ product.price }}
+          £{{ product.price }}
           <span v-if="product.old_price != 0" class="text-strike">
-            {{
-            product.old_price
-            }}
+            £{{ product.old_price }}
           </span>
         </h2>
       </div>
@@ -22,14 +20,10 @@
             <Counter :value="1" v-model="itemCount" />
           </div>
         </div>
-        <!-- <div class="product__colors">
-          <p>Color</p>
-          <div class="product__colors_options">
-            <div class="color"></div>
-            <div class="color"></div>
-            <div class="color"></div>
-          </div>
-        </div>-->
+        <div class="product__colors" v-if="product.details">
+          <p>Details</p>
+          <span>{{ product.details }}</span>
+        </div>
         <div class="product__buttons">
           <BaseButton
             :disabled="isInCart(this.$route.params.id)"
@@ -132,7 +126,14 @@ export default {
   .product__settings {
     margin: 3rem 0;
     p {
+      font-weight: 500;
       font-size: 16px;
+    }
+    span {
+      display: inline-flex;
+      margin: 1rem 0;
+      line-height: 125%;
+      word-spacing: 0.3em;
     }
   }
 }

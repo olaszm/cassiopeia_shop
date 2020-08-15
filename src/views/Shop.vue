@@ -5,22 +5,51 @@
         <ul v-if="filters">
           <BaseDropdown>
             <h3 slot="title">Added</h3>
-            <li slot="list-item" @click="getItems('sys.createdAt')">Newest</li>
-            <li slot="list-item" @click="getItems('-sys.createdAt')">Oldest</li>
+            <li
+              slot="list-item"
+              @click="
+                getItems({
+                  type: getURLParam,
+                  order: 'sys.createdAt',
+                })
+              "
+            >
+              Newest
+            </li>
+            <li
+              slot="list-item"
+              @click="getItems({ type: getURLParam, order: '-sys.createdAt' })"
+            >
+              Oldest
+            </li>
           </BaseDropdown>
 
           <BaseDropdown>
             <h3 slot="title">Price</h3>
-            <li slot="list-item" @click="changePriceOrder('lowToHigh')">Low to high</li>
-            <li slot="list-item" @click="changePriceOrder('highToLow')">High to low</li>
+            <li slot="list-item" @click="changePriceOrder('lowToHigh')">
+              Low to high
+            </li>
+            <li slot="list-item" @click="changePriceOrder('highToLow')">
+              High to low
+            </li>
           </BaseDropdown>
         </ul>
         <div class="shop_total_items">
-          <p>{{ totalProducts >=1 ? `${totalProducts} items` : `${totalProducts} item` }}</p>
+          <p>
+            {{
+              totalProducts >= 1
+                ? `${totalProducts} items`
+                : `${totalProducts} item`
+            }}
+          </p>
         </div>
       </div>
       <div class="products_gallery">
-        <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
+        <ImageCard
+          v-for="(item, index) in filteredProducts"
+          :key="index"
+          :item="item"
+        />
       </div>
       <div class="showmore-btn-container">
         <BaseButton class="btn-fill">
@@ -41,6 +70,9 @@ export default {
   computed: {
     ...mapState(["totalProducts"]),
     ...mapGetters(["filteredProducts"]),
+    getURLParam() {
+      return this.$route.params.item == "plants" ? "product" : "pot";
+    },
   },
   data() {
     return {
@@ -49,6 +81,9 @@ export default {
   },
   methods: {
     ...mapActions(["changePriceOrder", "getItems"]),
+  },
+  mounted() {
+    this.getItems({ type: this.getURLParam });
   },
 };
 </script>

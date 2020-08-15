@@ -29,7 +29,9 @@ export default {
       return this.products.filter((item) => item.tags.includes("new"));
     },
     deals() {
-      return this.products.filter((item) => item.tags.includes("indoor"));
+      return this.products
+        .filter((item) => item.tags.includes("indoor"))
+        .slice(0, 4);
     },
   },
   methods: {

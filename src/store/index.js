@@ -94,12 +94,12 @@ export default new Vuex.Store({
       commit("REMOVE_CART_ITEM", index);
     },
 
-    async getItems({ commit }, order = "sys.createdAt") {
+    async getItems({ commit }, { type = "product", order = "sys.createdAt" }) {
       const resp = await client.getEntries({
-        content_type: "product",
+        content_type: type,
         order: order,
       });
-
+      commit("SET_PRICE_ORDER", "");
       commit("SET_TOTAL_PRODUCT", resp.total);
       const products = resp.items.map((item) => {
         item.fields.id = item.sys.id;
@@ -140,14 +140,12 @@ export default new Vuex.Store({
     },
     filteredProducts: (state) => {
       switch (state.priceOrder) {
-        case "":
-          return state.products;
         case "lowToHigh":
-          return state.products.sort((a, b) => a.price - b.price);
+          return state.products.sort((a, b) => a.price - b.price).slice(0, 5);
         case "highToLow":
-          return state.products.sort((a, b) => b.price - a.price);
+          return state.products.sort((a, b) => b.price - a.price).slice(0, 5);
         default:
-          return state.products;
+          return state.products.slice(0, 5);
       }
     },
     getDelivery: (state) => {

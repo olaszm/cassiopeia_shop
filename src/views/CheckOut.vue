@@ -30,6 +30,8 @@
             <BaseInput placeholder="Post code" />
           </fieldset>
         </form>
+
+        <StripeCard />
         <div class="checkout__buttons">
           <router-link to="/shop/plants">
             <BaseButton class="btn-outline btn-wide">
@@ -45,21 +47,25 @@
       </div>
       <div class="checkout__product__summary">
         <div class="checkout__product__items">
-          <h3>Total items: {{getCartLength}}</h3>
-          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
+          <h3>Total items: {{ getCartLength }}</h3>
+          <CartProduct
+            v-for="(item, index) in cart"
+            :key="index"
+            :item="item"
+          />
         </div>
         <div class="cart__price">
           <div class="cart__price__delivery">
             <span>Delivery</span>
-            <span>£{{activeDelivery.price}}</span>
+            <span>£{{ activeDelivery.price }}</span>
           </div>
           <div class="cart__price__discount" v-if="isDiscountUsed">
             <span>Discount</span>
-            <span>-£{{getDiscount}}</span>
+            <span>-£{{ getDiscount }}</span>
           </div>
           <div class="cart__price__total">
             <span>Total:</span>
-            <span>£{{getCartTotalPrice}}</span>
+            <span>£{{ getCartTotalPrice }}</span>
           </div>
         </div>
       </div>
@@ -68,14 +74,16 @@
 </template>
 
 <script>
-import BaseInput from "@/components/BaseInput";
+import StripeCard from "@/components/StripeCard";
 import BaseButton from "@/components/BaseButton";
+import BaseInput from "@/components/BaseInput";
 import BaseSelectInput from "@/components/BaseSelectInput";
 import CartProduct from "@/components/CartProduct";
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: {
     BaseInput,
+    StripeCard,
     CartProduct,
     BaseSelectInput,
     BaseButton,
@@ -103,7 +111,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 
 .checkout__inner {

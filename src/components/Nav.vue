@@ -2,14 +2,9 @@
   <header>
     <nav class="wrapper">
       <ul class="nav">
-        <li>
-          <i class="fas fa-map-marker-alt"></i>London
-        </li>
+        <li><i class="fas fa-map-marker-alt"></i>London</li>
         <router-link class="title" to="/">cassiopeia</router-link>
         <div class="nav__icons">
-          <li>
-            <i class="fas fa-search icon"></i>
-          </li>
           <li>
             <i
               @click="openCart"
@@ -52,6 +47,29 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "@/style/_variables.scss";
+
+// .router-link {
+//   &::after {
+//     content: "";
+//     position: absolute;
+//     bottom: -5px;
+//     left: 0;
+//     height: 2px;
+//     width: 100%;
+//     margin: 0 auto;
+//     background-color: $black;
+
+//     transform: translate(100%);
+//     transition: transform 300ms ease;
+//   }
+// }
+
+.router-link-exact-active {
+  font-weight: 500;
+  text-shadow: $box-shadow;
+  transition: all 300ms ease;
+  transform: scale(1.2);
+}
 
 .nav,
 .nav__icons {
@@ -115,8 +133,7 @@ export default {
     a {
       margin: 0 0.5em;
       cursor: pointer;
-      &:hover,
-      &:focus {
+      &:hover {
         color: $grey;
       }
     }

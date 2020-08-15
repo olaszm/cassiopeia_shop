@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="footer__inner">
         <div class="footer__column footer_contact">
-          <h3>cassiopeia</h3>
+          <h3>social</h3>
           <div class="footer__social_btns">
             <i class="fab fa-instagram icon"></i>
             <i class="fab fa-whatsapp icon"></i>
@@ -46,7 +46,7 @@
 export default {};
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 footer {
   margin-top: 10rem;
@@ -69,10 +69,23 @@ footer {
 
 .footer__column {
   height: 100%;
+  margin: 1rem 0;
   h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    margin: 1.5rem 0;
+    margin: 1.2rem 0;
+    position: relative;
+    &::after {
+      content: "";
+      height: 1px;
+      width: 100%;
+      background-color: $grey;
+      opacity: 0.4;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+    }
   }
 }
 .footer__social_btns {
@@ -90,7 +103,7 @@ footer {
     justify-content: flex-start;
 
     a {
-      margin: 1rem 0;
+      margin: 0.9rem 0;
       &:hover {
         color: $grey;
       }
