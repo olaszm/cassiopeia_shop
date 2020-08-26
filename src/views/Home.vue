@@ -2,11 +2,11 @@
   <div>
     <HeroImage />
     <section class="home wrapper">
-      <HomeSection v-if="newArrivals.length" :items="newArrivals">
+      <HomeSection :items="getDeals('new')">
         <h3 slot="section-title">New Arrivals</h3>
       </HomeSection>
-      <HomeSection v-if="deals.length" :items="deals">
-        <h3 slot="section-title">Indoor plants</h3>
+      <HomeSection :items="getDeals('medium')">
+        <h3 slot="section-title">Medium Size Plants</h3>
       </HomeSection>
     </section>
   </div>
@@ -16,7 +16,7 @@
 // @ is an alias to /src
 import HeroImage from "@/components/HeroImage";
 import HomeSection from "@/components/HomeSection";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "Home",
   data() {
@@ -25,14 +25,7 @@ export default {
   components: { HeroImage, HomeSection },
   computed: {
     ...mapState(["products"]),
-    newArrivals() {
-      return this.products.filter((item) => item.tags.includes("new"));
-    },
-    deals() {
-      return this.products
-        .filter((item) => item.tags.includes("indoor"))
-        .slice(0, 4);
-    },
+    ...mapGetters(["getDeals"]),
   },
   methods: {
     ...mapActions(["getProductsByTag", "getItems"]),

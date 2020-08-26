@@ -1,15 +1,17 @@
 <template>
   <div class="hero">
     <img
-      src="https://images.unsplash.com/photo-1490349368154-73de9c9bc37c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+      src="https://images.unsplash.com/photo-1502920970741-47c1bafc8d49?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
       alt
     />
     <div class="hero__overlay">
-      <h4>Title</h4>
-      <p>Description</p>
-      <BaseButton class="btn-fill">
-        <span slot="button-text">Buy</span>
-      </BaseButton>
+      <h4>BEAUTIFUL INDOOR PLANTS</h4>
+      <p>Cassiopeia makes it easy for you to discover & buy stunning indoor plants for your home & office.</p>
+      <router-link to="/shop/plants">
+        <BaseButton class="btn-fill">
+          <span slot="button-text">See more</span>
+        </BaseButton>
+      </router-link>
     </div>
   </div>
 </template>
@@ -40,14 +42,16 @@ export default {
   }
   .hero__overlay {
     position: absolute;
+    width: 350px;
     bottom: 20%;
-    left: 10%;
+    left: 15%;
     h4 {
       margin: 1.25rem 0;
-      font-size: 2rem;
+      font-size: 2.25rem;
       font-weight: 500;
     }
     p {
+      font-size: 1.25rem;
       margin: 2rem 0;
     }
     button {

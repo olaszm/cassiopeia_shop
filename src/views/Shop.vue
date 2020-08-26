@@ -26,9 +26,7 @@
         </div>
       </div>
       <div class="products_gallery">
-        <transition-group name="fade" mode="out-in">
-          <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
-        </transition-group>
+        <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
       </div>
       <div class="showmore-btn-container">
         <BaseButton class="btn-fill" @click.native="loadMore" v-if="!showMoreButton">
@@ -78,7 +76,6 @@ export default {
   height: 100%;
   width: 100%;
   margin: 5rem 0;
-
   // display: flex;
   // justify-content: center;
   // align-items: center;
@@ -87,14 +84,7 @@ export default {
   max-width: 1500px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 3rem;
-  place-items: space-between;
-  .products_gallery_row {
-    display: flex;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-  }
+  place-items: start;
 }
 
 .showmore-btn-container {
@@ -134,14 +124,5 @@ export default {
     left: 0;
     right: 0;
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.35s ease;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  // transform: translateX(100%);
 }
 </style>

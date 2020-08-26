@@ -2,7 +2,9 @@
   <header>
     <nav class="wrapper">
       <ul class="nav">
-        <li><i class="fas fa-map-marker-alt"></i>London</li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>London
+        </li>
         <router-link class="title" to="/">cassiopeia</router-link>
         <div class="nav__icons">
           <li>
@@ -18,8 +20,8 @@
     <div class="nav__categories-container">
       <div class="nav__categories-inner">
         <ul>
-          <router-link class="title" to="/shop/plants">Plants</router-link>
-          <router-link class="title" to="/shop/pots">Pots</router-link>
+          <router-link class="title" to="/shop/plants">Shop</router-link>
+          <router-link class="title" to="/about">About</router-link>
         </ul>
       </div>
     </div>
@@ -49,19 +51,7 @@ export default {
 @import "@/style/_variables.scss";
 
 // .router-link {
-//   &::after {
-//     content: "";
-//     position: absolute;
-//     bottom: -5px;
-//     left: 0;
-//     height: 2px;
-//     width: 100%;
-//     margin: 0 auto;
-//     background-color: $black;
 
-//     transform: translate(100%);
-//     transition: transform 300ms ease;
-//   }
 // }
 
 .router-link-exact-active {
@@ -69,6 +59,17 @@ export default {
   text-shadow: $box-shadow;
   transition: all 300ms ease;
   transform: scale(1.2);
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: $black;
+    transition: transform 300ms ease;
+  }
 }
 
 .nav,

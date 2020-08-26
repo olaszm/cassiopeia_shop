@@ -101,7 +101,7 @@ export default new Vuex.Store({
         content_type: type,
         order: order,
         skip: state.products.length,
-        limit: 4,
+        limit: 5,
       });
 
       commit("SET_PRICE_ORDER", "");
@@ -165,10 +165,10 @@ export default new Vuex.Store({
     getDiscount: (state, getters) => {
       return (getters.getCartTotalPrice * state.discount).toFixed(2);
     },
-    getDeals(state) {
+    getDeals: (state) => (query) => {
       return state.products
-        .filter((item) => item.tags.includes("indoor"))
-        .slice(0, 4);
+        .filter((item) => item.tags.includes(query))
+        .slice(0, 3);
     },
     getProductById: (state) => (id) => {
       return state.products.find((item) => item.id === id);
