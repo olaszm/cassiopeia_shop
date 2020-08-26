@@ -3,7 +3,7 @@
     <div class="inner">
       <Product :product="product" />
       <HomeSection :items="getDeals">
-        <h3 slot="section-title">Indoor plants</h3>
+        <h3 slot="section-title">Items you might like</h3>
       </HomeSection>
     </div>
   </div>

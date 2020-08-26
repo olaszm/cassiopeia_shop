@@ -19,6 +19,7 @@ export default new Vuex.Store({
       title: "",
       price: 0,
     },
+    skip: 0,
   },
   mutations: {
     SET_CART(state, payload) {
@@ -29,7 +30,7 @@ export default new Vuex.Store({
       state.discount = payload;
     },
     SET_PRODUCTS(state, payload) {
-      state.products = payload;
+      state.products = [...state.products, ...payload];
     },
     SET_TOTAL_PRODUCT(state, payload) {
       state.totalProducts = payload;
@@ -60,7 +61,6 @@ export default new Vuex.Store({
 
   actions: {
     changeProductAmount({ commit, state }, payload) {
-      // commit, state, console.log(payload);
       const index = state.cart.findIndex((item) => item.id == payload.id);
       commit("SET_CART_PRODUCT_AMOUNT", { index, amount: payload.amount });
     },
@@ -93,15 +93,21 @@ export default new Vuex.Store({
       const index = state.cart.findIndex((cartItem) => cartItem.id == id);
       commit("REMOVE_CART_ITEM", index);
     },
-
-    async getItems({ commit }, { type = "product", order = "sys.createdAt" }) {
+    async getItems(
+      { commit, state },
+      { type = "product", order = "sys.createdAt" }
+    ) {
       const resp = await client.getEntries({
         content_type: type,
         order: order,
+        skip: state.products.length,
+        limit: 4,
       });
+
       commit("SET_PRICE_ORDER", "");
       commit("SET_TOTAL_PRODUCT", resp.total);
       const products = resp.items.map((item) => {
+        item.fields.createdAt = new Date(item.sys.createdAt);
         item.fields.id = item.sys.id;
         return item.fields;
       });
@@ -115,6 +121,7 @@ export default new Vuex.Store({
         return item;
       } else {
         const resp = await client.getEntry(id);
+        item.fields.createdAt = new Date(item.sys.createdAt);
         resp.fields.id = resp.sys.id;
         commit("SET_PRODUCT", resp.fields);
         return resp.fields;
@@ -141,11 +148,15 @@ export default new Vuex.Store({
     filteredProducts: (state) => {
       switch (state.priceOrder) {
         case "lowToHigh":
-          return state.products.sort((a, b) => a.price - b.price).slice(0, 5);
+          return state.products.sort((a, b) => a.price - b.price);
         case "highToLow":
-          return state.products.sort((a, b) => b.price - a.price).slice(0, 5);
+          return state.products.sort((a, b) => b.price - a.price);
+        case "newest":
+          return state.products.sort((a, b) => b.createdAt - a.createdAt);
+        case "oldest":
+          return state.products.sort((a, b) => a.createdAt - b.createdAt);
         default:
-          return state.products.slice(0, 5);
+          return state.products;
       }
     },
     getDelivery: (state) => {
@@ -155,7 +166,9 @@ export default new Vuex.Store({
       return (getters.getCartTotalPrice * state.discount).toFixed(2);
     },
     getDeals(state) {
-      return state.products.filter((item) => item.tags.includes("indoor"));
+      return state.products
+        .filter((item) => item.tags.includes("indoor"))
+        .slice(0, 4);
     },
     getProductById: (state) => (id) => {
       return state.products.find((item) => item.id === id);

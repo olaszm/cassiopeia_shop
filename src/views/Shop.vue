@@ -5,54 +5,33 @@
         <ul v-if="filters">
           <BaseDropdown>
             <h3 slot="title">Added</h3>
-            <li
-              slot="list-item"
-              @click="
-                getItems({
-                  type: getURLParam,
-                  order: 'sys.createdAt',
-                })
-              "
-            >
-              Newest
-            </li>
-            <li
-              slot="list-item"
-              @click="getItems({ type: getURLParam, order: '-sys.createdAt' })"
-            >
-              Oldest
-            </li>
+            <li slot="list-item" @click="changePriceOrder('newest')">Newest</li>
+            <li slot="list-item" @click="changePriceOrder('oldest')">Oldest</li>
           </BaseDropdown>
 
           <BaseDropdown>
             <h3 slot="title">Price</h3>
-            <li slot="list-item" @click="changePriceOrder('lowToHigh')">
-              Low to high
-            </li>
-            <li slot="list-item" @click="changePriceOrder('highToLow')">
-              High to low
-            </li>
+            <li slot="list-item" @click="changePriceOrder('lowToHigh')">Low to high</li>
+            <li slot="list-item" @click="changePriceOrder('highToLow')">High to low</li>
           </BaseDropdown>
         </ul>
         <div class="shop_total_items">
           <p>
             {{
-              totalProducts >= 1
-                ? `${totalProducts} items`
-                : `${totalProducts} item`
+            totalProducts >= 1
+            ? `${totalProducts} items`
+            : `${totalProducts} item`
             }}
           </p>
         </div>
       </div>
       <div class="products_gallery">
-        <ImageCard
-          v-for="(item, index) in filteredProducts"
-          :key="index"
-          :item="item"
-        />
+        <transition-group name="fade" mode="out-in">
+          <ImageCard v-for="(item, index) in filteredProducts" :key="index" :item="item" />
+        </transition-group>
       </div>
       <div class="showmore-btn-container">
-        <BaseButton class="btn-fill">
+        <BaseButton class="btn-fill" @click.native="loadMore" v-if="!showMoreButton">
           <h3 slot="button-text">Show more</h3>
         </BaseButton>
       </div>
@@ -73,6 +52,9 @@ export default {
     getURLParam() {
       return this.$route.params.item == "plants" ? "product" : "pot";
     },
+    showMoreButton() {
+      return this.filteredProducts.length === this.totalProducts;
+    },
   },
   data() {
     return {
@@ -81,10 +63,11 @@ export default {
   },
   methods: {
     ...mapActions(["changePriceOrder", "getItems"]),
+    loadMore() {
+      this.getItems({ type: this.getURLParam });
+    },
   },
-  mounted() {
-    this.getItems({ type: this.getURLParam });
-  },
+  mounted() {},
 };
 </script>
 
@@ -93,12 +76,25 @@ export default {
 
 .products_gallery {
   height: 100%;
+  width: 100%;
   margin: 5rem 0;
+
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // flex-direction: column;
   display: grid;
+  max-width: 1500px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 3rem;
-  width: 100%;
   place-items: space-between;
+  .products_gallery_row {
+    display: flex;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
 }
 
 .showmore-btn-container {
@@ -138,5 +134,14 @@ export default {
     left: 0;
     right: 0;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.35s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  // transform: translateX(100%);
 }
 </style>

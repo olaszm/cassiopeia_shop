@@ -14,10 +14,8 @@
           <h3>site map</h3>
           <div class="footer__column__content">
             <ul>
-              <router-link to="/">Flowers</router-link>
-              <router-link to="/">Pots</router-link>
-              <router-link to="/">Cactuses</router-link>
-              <router-link to="/">Accesories</router-link>
+              <router-link to="/shop/plants">Flowers</router-link>
+              <router-link to="/shop/pot">Pots</router-link>
             </ul>
           </div>
         </div>
@@ -25,10 +23,10 @@
           <h3>other</h3>
           <div class="footer__column__content">
             <ul>
-              <router-link to="/">Flowers</router-link>
-              <router-link to="/">Pots</router-link>
-              <router-link to="/">Cactuses</router-link>
-              <router-link to="/">Accesories</router-link>
+              <router-link to="/">About</router-link>
+              <router-link to="/">Contact</router-link>
+              <router-link to="/">Terms & Conditions</router-link>
+              <router-link to="/">Shipping</router-link>
             </ul>
           </div>
         </div>
