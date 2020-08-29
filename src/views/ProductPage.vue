@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="inner">
       <Product :product="product" />
-      <HomeSection :items="getDeals">
+      <HomeSection :items="getDeals(getRandomTag)">
         <h3 slot="section-title">Items you might like</h3>
       </HomeSection>
     </div>
@@ -24,11 +24,15 @@ export default {
   computed: {
     ...mapGetters(["getDeals"]),
     ...mapState(["product"]),
+    getRandomTag() {
+      let random = Math.floor(Math.random() * this.product.tags.length);
+      return this.product.tags[random];
+    },
   },
   methods: {
     ...mapActions(["getProductById"]),
   },
-  async created() {
+  async mounted() {
     const { id } = this.$route.params;
     await this.getProductById(id);
   },

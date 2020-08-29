@@ -95,11 +95,10 @@ export default {
 <style lang='scss' scoped >
 @import "@/style/_variables.scss";
 .cart__container {
-  position: absolute;
+  position: fixed;
   top: 0;
-  // bottom: 0;
-  height: 100%;
   right: 0;
+  height: 100%;
   background: white;
   min-width: 450px;
   width: 35%;

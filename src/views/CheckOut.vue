@@ -24,10 +24,10 @@
           </fieldset>
           <fieldset>
             <legend>Delivery address</legend>
-            <BaseInput placeholder="City" />
-            <BaseInput placeholder="Street" />
-            <BaseInput placeholder="House Number" />
-            <BaseInput placeholder="Post code" />
+            <BaseInput placeHolderText="City" />
+            <BaseInput placeHolderText="Street" />
+            <BaseInput placeHolderText="House Number" />
+            <BaseInput placeHolderText="Post code" />
           </fieldset>
         </form>
 
@@ -48,11 +48,7 @@
       <div class="checkout__product__summary">
         <div class="checkout__product__items">
           <h3>Total items: {{ getCartLength }}</h3>
-          <CartProduct
-            v-for="(item, index) in cart"
-            :key="index"
-            :item="item"
-          />
+          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
         <div class="cart__price">
           <div class="cart__price__delivery">

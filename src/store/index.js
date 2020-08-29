@@ -115,16 +115,15 @@ export default new Vuex.Store({
     },
     async getProductById({ getters, commit }, id) {
       const item = getters.getProductById(id);
-
-      if (item) {
+      if (item !== undefined) {
         commit("SET_PRODUCT", item);
         return item;
       } else {
         const resp = await client.getEntry(id);
-        item.fields.createdAt = new Date(item.sys.createdAt);
-        resp.fields.id = resp.sys.id;
-        commit("SET_PRODUCT", resp.fields);
-        return resp.fields;
+        let prod = resp.fields;
+        prod.createdAt = new Date(resp.sys.createdAt);
+        prod.id = resp.sys.id;
+        commit("SET_PRODUCT", prod);
       }
     },
     changePriceOrder({ commit }, payload) {

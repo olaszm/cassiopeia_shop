@@ -1,10 +1,17 @@
 <template>
-  <input type="text" :placeholder="placeHolderText" ref="input" @input="inputChange" />
+  <input :type="type" :placeholder="placeHolderText" ref="input" @input="inputChange" />
 </template>
 
 <script>
 export default {
-  props: ["placeHolderText"],
+  props: {
+    placeHolderText: {
+      required: true,
+    },
+    type: {
+      default: "text",
+    },
+  },
   model: {
     prop: "promoCode",
     event: "onChange",

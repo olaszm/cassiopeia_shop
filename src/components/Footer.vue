@@ -15,7 +15,6 @@
           <div class="footer__column__content">
             <ul>
               <router-link to="/shop/plants">Flowers</router-link>
-              <router-link to="/shop/pot">Pots</router-link>
             </ul>
           </div>
         </div>
