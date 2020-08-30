@@ -22,22 +22,30 @@ export default {
     return {
       styles: {
         base: {
-          iconColor: "#c4f0ff",
+          iconColor: "#595cff",
           color: "black",
-          fontWeight: 500,
+          fontWeight: 600,
+          backgroundColor: "transparent",
           fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
           fontSize: "16px",
           fontSmoothing: "antialiased",
           ":-webkit-autofill": {
-            color: "#fce883",
+            color: "#595cff",
           },
           "::placeholder": {
-            color: "#87BBFD",
+            color: "#afb1bd",
+            fontWeight: 600,
           },
-          invalid: {
-            iconColor: "#FFC7EE",
-            color: "#FFC7EE",
+          "::selection": {
+            backgroundColor: "#f9f9fb",
           },
+          ":focus": {
+            iconColor: "#595cff",
+          },
+        },
+        invalid: {
+          iconColor: "#FFC7EE",
+          color: "#FFC7EE",
         },
       },
       amount: 1000,
@@ -70,28 +78,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/style/_variables.scss";
-
-.StripeElement {
-  height: 100%;
-  width: 100%;
-  color: black;
-  background-color: none;
-  border: 1px solid $light-grey !important;
-  border-radius: 4px;
-  padding: 0.5em;
-  margin: 1rem 0;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: $snow;
-  margin-right: 1.5rem;
-  position: relative;
-  &::placeholder {
-    color: black;
-  }
-  &:focus {
-    border: 1px solid $primary;
-    outline: none;
-  }
-}
 </style>

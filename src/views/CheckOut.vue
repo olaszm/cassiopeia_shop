@@ -4,19 +4,21 @@
       <div class="checkout__form">
         <div class="checkout__progress"></div>
 
-        <form action>
+        <form action ref="form" @submit.prevent="">
           <fieldset>
             <legend>Delivery method</legend>
             <BaseSelectInput
               title="DHL"
-              price="5.99"
+              price="Free"
               value="DHL"
+              details="3-5 working days"
               v-model="activeDelivery"
               :active="activeDelivery"
             />
             <BaseSelectInput
               title="Hermex"
               price="4.99"
+              details="Next Day delivery"
               value="Hermex"
               v-model="activeDelivery"
               :active="activeDelivery"
@@ -24,31 +26,48 @@
           </fieldset>
           <fieldset>
             <legend>Delivery address</legend>
-            <BaseInput placeHolderText="City" />
-            <BaseInput placeHolderText="Street" />
-            <BaseInput placeHolderText="House Number" />
-            <BaseInput placeHolderText="Post code" />
+            <BaseInput placeHolderText="Name" @onChange="test" name="name" />
+
+            <BaseInput
+              placeHolderText="Email address"
+              @onChange="test"
+              name="email"
+            />
+            <BaseInput placeHolderText="City" @onChange="test" name="city" />
+            <BaseInput
+              placeHolderText="Post code"
+              @onChange="test"
+              name="postCode"
+            />
           </fieldset>
         </form>
 
-        <StripeCard />
+        <div ref="card"></div>
+        <div class="error"></div>
         <div class="checkout__buttons">
           <router-link to="/shop/plants">
             <BaseButton class="btn-outline btn-wide">
               <h3 slot="button-text">Continue Shopping</h3>
             </BaseButton>
           </router-link>
-          <router-link to="/">
-            <BaseButton class="btn-fill btn-wide">
-              <h3 slot="button-text">Payment</h3>
-            </BaseButton>
-          </router-link>
+
+          <BaseButton
+            class="btn-fill btn-wide"
+            @click.native="pay"
+            :disabled="this.loading"
+          >
+            <h3 slot="button-text">{{ !this.loading ? "Payment" : "..." }}</h3>
+          </BaseButton>
         </div>
       </div>
       <div class="checkout__product__summary">
         <div class="checkout__product__items">
           <h3>Total items: {{ getCartLength }}</h3>
-          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
+          <CartProduct
+            v-for="(item, index) in cart"
+            :key="index"
+            :item="item"
+          />
         </div>
         <div class="cart__price">
           <div class="cart__price__delivery">
@@ -70,22 +89,47 @@
 </template>
 
 <script>
-import StripeCard from "@/components/StripeCard";
+// import StripeCard from "@/components/StripeCard";
+import { loadStripe } from "@stripe/stripe-js";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
 import BaseSelectInput from "@/components/BaseSelectInput";
+import axios from "axios";
 import CartProduct from "@/components/CartProduct";
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: {
     BaseInput,
-    StripeCard,
+    // StripeCard,
     CartProduct,
     BaseSelectInput,
     BaseButton,
   },
   data() {
-    return { activeDelivery: this.$store.state.delivery };
+    return {
+      form: {},
+      loading: false,
+      clientS: "",
+      stripe: "",
+      activeDelivery: this.$store.state.delivery,
+      elements: "",
+      card: "",
+      style: {
+        base: {
+          color: "#32325d",
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: "antialiased",
+          fontSize: "16px",
+          "::placeholder": {
+            color: "#aab7c4",
+          },
+        },
+        invalid: {
+          color: "#fa755a",
+          iconColor: "#fa755a",
+        },
+      },
+    };
   },
   watch: {
     activeDelivery(newVal) {
@@ -94,6 +138,65 @@ export default {
   },
   methods: {
     ...mapActions(["setDelivery"]),
+    test(e) {
+      this.form[e.inputName] = e.value;
+    },
+    stripeTokenHandler(token) {
+      // Insert the token ID into the form so it gets submitted to the server
+      var form = this.$refs.form;
+      var hiddenInput = document.createElement("input");
+      hiddenInput.setAttribute("type", "hidden");
+      hiddenInput.setAttribute("name", "stripeToken");
+      hiddenInput.setAttribute("value", token.id);
+      form.appendChild(hiddenInput);
+
+      // Submit the form
+
+      this.stripe
+        .confirmCardPayment(this.clientS, {
+          payment_method: {
+            card: this.card,
+            billing_details: {
+              address: {
+                city: this.form.city,
+                postal_code: this.form.postCode,
+              },
+              name: this.form.name,
+              email: this.form.email,
+            },
+          },
+        })
+        .then((res) => {
+          if (res.error) {
+            console.error(res.error.message);
+          } else {
+            if (res.paymentIntent.status === "succeeded") {
+              console.log("successfull transaction");
+              this.loading = false;
+              // Show a success message to your customer
+              // There's a risk of the customer closing the window before callback
+              // execution. Set up a webhook or plugin to listen for the
+              // payment_intent.succeeded event that handles any business critical
+              // post-payment actions.
+            }
+          }
+        });
+    },
+
+    pay() {
+      this.stripe.createToken(this.card).then((result) => {
+        if (result.error) {
+          // Inform the user if there was an error.
+          let errorElement = this.$refs.error;
+          errorElement.textContent = result.error.message;
+          console.error(result.error);
+        } else {
+          // Send the token to your server.
+          this.stripeTokenHandler(result.token);
+          this.loading = true;
+        }
+      });
+    },
   },
   computed: {
     ...mapState(["cart", "delivery"]),
@@ -103,6 +206,32 @@ export default {
       "getDiscount",
       "isDiscountUsed",
     ]),
+  },
+  created() {
+    loadStripe(
+      "pk_test_51HGQmJF3taK9EUdAS1170CzCc7bsaEh16jCnNa4Z8tMWf946mSBORTGRyklB2DxvtxzRfLfWf5noywd5cZCI81Bg00MvCyGKqh"
+    )
+      .then((result) => {
+        this.stripe = result;
+        this.elements = result.elements();
+        this.card = this.elements.create("card", { style: this.style });
+        this.card.mount(this.$refs.card);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    axios
+      .post("/create-payment-intent", {
+        items: this.cart,
+      })
+      .then((res) => {
+        this.clientS = res.data.clientSecret;
+        console.log(this.clientS);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
 };
 </script>

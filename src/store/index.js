@@ -87,7 +87,12 @@ export default new Vuex.Store({
       }
     },
     setDelivery({ commit }, payload) {
-      commit("SET_DELIVERY", payload);
+      if (payload.price == "Free") {
+        payload.price = 0;
+        commit("SET_DELIVERY", payload);
+      } else {
+        commit("SET_DELIVERY", payload);
+      }
     },
     deleteCartItem({ state, commit }, id) {
       const index = state.cart.findIndex((cartItem) => cartItem.id == id);

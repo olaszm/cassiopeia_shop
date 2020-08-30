@@ -6,8 +6,9 @@
         <span class="radio__control"></span>
       </span>
       <span class="radio__label">
-        <span>{{title}}</span>
-        <span>£{{price}}</span>
+        <span>{{title}} - {{details}}</span>
+
+        <span>{{formatPrice}}</span>
       </span>
     </label>
   </div>
@@ -20,9 +21,14 @@ export default {
     event: "updateDelivery",
   },
 
-  props: ["title", "price", "value", "active"],
+  props: ["title", "price", "details", "value", "active"],
   data() {
     return {};
+  },
+  computed: {
+    formatPrice() {
+      return this.price == "Free" ? `${this.price}` : `£${this.price}`;
+    },
   },
   methods: {
     updateActiveDelivery() {

@@ -1,5 +1,10 @@
 <template>
-  <input :type="type" :placeholder="placeHolderText" ref="input" @input="inputChange" />
+  <input
+    :type="type"
+    :placeholder="placeHolderText"
+    ref="input"
+    @input="inputChange"
+  />
 </template>
 
 <script>
@@ -8,6 +13,7 @@ export default {
     placeHolderText: {
       required: true,
     },
+    name: {},
     type: {
       default: "text",
     },
@@ -18,19 +24,21 @@ export default {
   },
   methods: {
     inputChange() {
-      this.$emit("onChange", this.$refs.input.value);
+      this.$emit("onChange", {
+        value: this.$refs.input.value,
+        inputName: this.name,
+      });
     },
   },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 
 input {
   height: 100%;
   width: 100%;
-  background-color: none;
   border: 1px solid $light-grey;
   border-radius: 4px;
   padding: 0.5em;

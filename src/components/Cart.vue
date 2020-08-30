@@ -15,7 +15,7 @@
         </div>
         <div class="cart__footer">
           <div class="cart__discount">
-            <BaseInput placeholder="Use IAMBROKE for 10% off" v-model="promoCode" />
+            <BaseInput placeHolderText="Use IAMBROKE for 10% off" v-model="promoCode" />
             <BaseButton class="btn-outline" @click.native="applyDisc" :disabled="isDiscountUsed">
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
