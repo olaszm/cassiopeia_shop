@@ -16,7 +16,7 @@ export default new Vuex.Store({
     _isDiscountUsed: false,
     priceOrder: "",
     delivery: {
-      title: "",
+      title: "DHL",
       price: 0,
     },
     skip: 0,

@@ -1,14 +1,23 @@
 <template>
-  <div class="radio__container" :class="{'radio__container-selected' : active.name == title}">
+  <div
+    class="radio__container"
+    :class="{ 'radio__container-selected': active.name == title }"
+  >
     <label class="radio">
       <span class="radio__input">
-        <input type="radio" name="radio" :value="title" @click="updateActiveDelivery" />
+        <input
+          type="radio"
+          name="radio"
+          :value="title"
+          @click="updateActiveDelivery"
+          :checked="isChecked"
+        />
         <span class="radio__control"></span>
       </span>
       <span class="radio__label">
-        <span>{{title}} - {{details}}</span>
+        <span>{{ title }} - {{ details }}</span>
 
-        <span>{{formatPrice}}</span>
+        <span>{{ formatPrice }}</span>
       </span>
     </label>
   </div>
@@ -21,7 +30,7 @@ export default {
     event: "updateDelivery",
   },
 
-  props: ["title", "price", "details", "value", "active"],
+  props: ["title", "price", "details", "value", "active", "isChecked"],
   data() {
     return {};
   },
@@ -38,7 +47,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 
 .radio__container {

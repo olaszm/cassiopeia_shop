@@ -14,6 +14,7 @@
               details="3-5 working days"
               v-model="activeDelivery"
               :active="activeDelivery"
+              isChecked="true"
             />
             <BaseSelectInput
               title="Hermex"
@@ -26,24 +27,43 @@
           </fieldset>
           <fieldset>
             <legend>Delivery address</legend>
-            <BaseInput placeHolderText="Name" @onChange="test" name="name" />
+            <BaseInput
+              placeHolderText="Name"
+              @onChange="test"
+              name="name"
+              isRequired
+            />
 
             <BaseInput
               placeHolderText="Email address"
               @onChange="test"
               name="email"
+              isRequired
             />
-            <BaseInput placeHolderText="City" @onChange="test" name="city" />
+            <BaseInput
+              placeHolderText="City"
+              @onChange="test"
+              name="city"
+              isRequired
+            />
             <BaseInput
               placeHolderText="Post code"
               @onChange="test"
               name="postCode"
+              isRequired
             />
           </fieldset>
         </form>
 
         <div ref="card"></div>
-        <div class="error"></div>
+        <div class="information">
+          <p>
+            This is a sandbox payment account, for a succesfull payment please
+            use the following card number with any CVC, expiration date:
+          </p>
+          <p>4242 4242 4242 4242</p>
+        </div>
+        <div class="error-container" ref="errorEl"></div>
         <div class="checkout__buttons">
           <router-link to="/shop/plants">
             <BaseButton class="btn-outline btn-wide">
@@ -54,7 +74,7 @@
           <BaseButton
             class="btn-fill btn-wide"
             @click.native="pay"
-            :disabled="this.loading"
+            :disabled="this.loading || this.cart.length == 0"
           >
             <h3 slot="button-text">{{ !this.loading ? "Payment" : "..." }}</h3>
           </BaseButton>
@@ -89,7 +109,6 @@
 </template>
 
 <script>
-// import StripeCard from "@/components/StripeCard";
 import { loadStripe } from "@stripe/stripe-js";
 import BaseButton from "@/components/BaseButton";
 import BaseInput from "@/components/BaseInput";
@@ -100,7 +119,6 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: {
     BaseInput,
-    // StripeCard,
     CartProduct,
     BaseSelectInput,
     BaseButton,
@@ -111,12 +129,15 @@ export default {
       loading: false,
       clientS: "",
       stripe: "",
-      activeDelivery: this.$store.state.delivery,
+      activeDelivery: {
+        name: "DHL",
+        price: 0,
+      },
       elements: "",
       card: "",
       style: {
         base: {
-          color: "#32325d",
+          color: "grey",
           fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
           fontSmoothing: "antialiased",
           fontSize: "16px",
@@ -151,7 +172,6 @@ export default {
       form.appendChild(hiddenInput);
 
       // Submit the form
-
       this.stripe
         .confirmCardPayment(this.clientS, {
           payment_method: {
@@ -171,8 +191,9 @@ export default {
             console.error(res.error.message);
           } else {
             if (res.paymentIntent.status === "succeeded") {
-              console.log("successfull transaction");
               this.loading = false;
+              this.$router.push("/");
+              console.log(res);
               // Show a success message to your customer
               // There's a risk of the customer closing the window before callback
               // execution. Set up a webhook or plugin to listen for the
@@ -184,22 +205,47 @@ export default {
     },
 
     pay() {
-      this.stripe.createToken(this.card).then((result) => {
-        if (result.error) {
-          // Inform the user if there was an error.
-          let errorElement = this.$refs.error;
-          errorElement.textContent = result.error.message;
-          console.error(result.error);
+      if (
+        this.form.name &&
+        this.form.email &&
+        this.form.city &&
+        this.form.postCode
+      ) {
+        this.stripe.createToken(this.card).then((result) => {
+          if (result.error) {
+            // Inform the user if there was an error.
+            this.sendErrorMessage(result.error);
+          } else {
+            this.sendErrorMessage("");
+            this.inputErrorDisplay(false);
+            // Send the token to your server.
+            this.stripeTokenHandler(result.token);
+            this.loading = true;
+          }
+        });
+      } else {
+        this.sendErrorMessage("Please fill out every field!");
+        this.inputErrorDisplay(true);
+      }
+    },
+    sendErrorMessage(txt) {
+      let errorElement = this.$refs.errorEl;
+      errorElement.textContent = txt;
+    },
+    inputErrorDisplay(state) {
+      const inputs = document.querySelectorAll("input");
+
+      inputs.forEach((input) => {
+        if (state) {
+          input.classList.add("StripeElement--invalid");
         } else {
-          // Send the token to your server.
-          this.stripeTokenHandler(result.token);
-          this.loading = true;
+          input.classList.remove("StripeElement--invalid");
         }
       });
     },
   },
   computed: {
-    ...mapState(["cart", "delivery"]),
+    ...mapState(["cart", "delivery", "_isDiscountUsed"]),
     ...mapGetters([
       "getCartTotalPrice",
       "getCartLength",
@@ -214,7 +260,10 @@ export default {
       .then((result) => {
         this.stripe = result;
         this.elements = result.elements();
-        this.card = this.elements.create("card", { style: this.style });
+        this.card = this.elements.create("card", {
+          style: this.style,
+          hidePostalCode: true,
+        });
         this.card.mount(this.$refs.card);
       })
       .catch((err) => {
@@ -224,6 +273,8 @@ export default {
     axios
       .post("/create-payment-intent", {
         items: this.cart,
+        discount: this._isDiscountUsed,
+        delivery: this.delivery,
       })
       .then((res) => {
         this.clientS = res.data.clientSecret;
@@ -305,6 +356,9 @@ export default {
       margin: 1rem 0;
       width: 100%;
       height: 35px;
+      &:first-child {
+        margin-right: 0;
+      }
     }
   }
 }
@@ -316,8 +370,15 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid $light-grey;
-  padding: 2rem 2rem;
+  padding: 1rem 1rem;
   border-radius: 4px;
+  .checkout__product__items {
+    padding-right: 2rem;
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+  }
 }
 
 .cart__price {
@@ -354,6 +415,46 @@ export default {
         background-color: $grey;
       }
     }
+  }
+}
+
+.information {
+  color: $grey;
+  font-size: 14px;
+  p {
+    &:last-child {
+      margin-top: 0.5em;
+    }
+  }
+}
+
+.error-container {
+  color: $invalid;
+}
+
+.StripeElement {
+  height: 45px;
+  width: 100%;
+  border: 1px solid $light-grey;
+  border-radius: 4px;
+  padding: 0.875em 0.5em;
+  margin: 1rem 0;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: $snow;
+  margin-right: 1.5rem;
+  position: relative;
+  &:focus {
+    border: 1px solid $primary;
+    outline: none;
+  }
+  &--focus {
+    border: 1px solid $primary;
+    outline: none;
+  }
+  &--invalid {
+    border: 1px solid $invalid;
   }
 }
 </style>

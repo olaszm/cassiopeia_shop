@@ -6,7 +6,10 @@
     />
     <div class="hero__overlay">
       <h4>BEAUTIFUL INDOOR PLANTS</h4>
-      <p>Cassiopeia makes it easy for you to discover & buy stunning indoor plants for your home & office.</p>
+      <p>
+        Cassiopeia makes it easy for you to discover & buy stunning indoor
+        plants for your home & office.
+      </p>
       <router-link to="/shop/plants">
         <BaseButton class="btn-fill">
           <span slot="button-text">See more</span>
@@ -25,7 +28,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 .hero {
   height: 480px;
@@ -57,6 +60,16 @@ export default {
     button {
       height: 40px;
       width: 150px;
+    }
+    @media (max-width: $mobile) {
+      left: 5%;
+      width: 250px;
+      h4 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
     }
   }
 }

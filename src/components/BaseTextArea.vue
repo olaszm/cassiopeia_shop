@@ -1,6 +1,6 @@
 <template>
-  <input
-    :type="type"
+  <textarea
+    :cols="colSize"
     :placeholder="placeHolderText"
     ref="input"
     :required="isRequired"
@@ -18,8 +18,9 @@ export default {
       required: true,
     },
     name: {},
-    type: {
-      default: "text",
+    colSize: {
+      default: 30,
+      type: Number,
     },
   },
   model: {
@@ -40,7 +41,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/style/_variables.scss";
 
-input {
+textarea {
   height: 100%;
   width: 100%;
   border: 1px solid $light-grey;
@@ -53,6 +54,7 @@ input {
   background-color: $snow;
   margin-right: 1.5rem;
   position: relative;
+  resize: none;
   &:focus {
     border: 1px solid $primary;
     outline: none;

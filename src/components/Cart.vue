@@ -3,35 +3,46 @@
     <div v-if="_isCartOpen" class="cart__container">
       <div class="cart__inner">
         <div class="cart__header">
-          <h3>Your Cart</h3>
+          <h3>Your Cart ({{ getCartLength }})</h3>
           <i @click="closeModal" class="fas fa-times icon"></i>
         </div>
 
         <div class="cart__content" v-if="cart.length">
-          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
+          <CartProduct
+            v-for="(item, index) in cart"
+            :key="index"
+            :item="item"
+          />
         </div>
         <div v-else class="cart__content">
           <h3>Cart is empty</h3>
         </div>
         <div class="cart__footer">
           <div class="cart__discount">
-            <BaseInput placeHolderText="Use IAMBROKE for 10% off" v-model="promoCode" />
-            <BaseButton class="btn-outline" @click.native="applyDisc" :disabled="isDiscountUsed">
+            <BaseInput
+              placeHolderText="Use IAMBROKE for 10% off"
+              v-model="promoCode"
+            />
+            <BaseButton
+              class="btn-outline"
+              @click.native="applyDisc"
+              :disabled="isDiscountUsed"
+            >
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
           </div>
           <div class="cart__price">
             <div class="cart__price__delivery" v-if="getDelivery > 0">
               <span>Delivery</span>
-              <span>£{{getDelivery}}</span>
+              <span>£{{ getDelivery }}</span>
             </div>
             <div class="cart__price__discount" v-if="isDiscountUsed">
               <span>Discount</span>
-              <span>-£{{getDiscount}}</span>
+              <span>-£{{ getDiscount }}</span>
             </div>
             <div class="cart__price__total">
               <span>Total:</span>
-              <span>£{{getCartTotalPrice}}</span>
+              <span>£{{ getCartTotalPrice }}</span>
             </div>
           </div>
           <div class="cart__checkout">
@@ -77,7 +88,7 @@ export default {
   methods: {
     ...mapActions(["isCartOpen", "applyDiscount"]),
     applyDisc() {
-      if (this.promoCode === "IAMBROKE") {
+      if (this.promoCode.value === "IAMBROKE") {
         this.applyDiscount(0.1);
       }
     },
@@ -92,7 +103,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped >
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 .cart__container {
   position: fixed;

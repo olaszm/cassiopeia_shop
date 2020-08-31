@@ -22,8 +22,8 @@
           <h3>other</h3>
           <div class="footer__column__content">
             <ul>
-              <router-link to="/">About</router-link>
-              <router-link to="/">Contact</router-link>
+              <router-link to="/about">About</router-link>
+              <router-link to="/find-us">Contact</router-link>
               <router-link to="/">Terms & Conditions</router-link>
               <router-link to="/">Shipping</router-link>
             </ul>

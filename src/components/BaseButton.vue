@@ -9,7 +9,7 @@
 export default {};
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import "@/style/_variables.scss";
 
 button {
@@ -36,8 +36,8 @@ button {
     box-shadow: 3px 7px 15px rgba(0, 0, 0, 0.3);
   }
   &:disabled {
-    cursor: normal;
-    background-color: $light-grey;
+    cursor: unset;
+    background-color: $grey;
     box-shadow: none;
   }
 }

@@ -2,9 +2,7 @@
   <header>
     <nav class="wrapper">
       <ul class="nav">
-        <li>
-          <i class="fas fa-map-marker-alt"></i>London
-        </li>
+        <li><i class="fas fa-map-marker-alt"></i>London</li>
         <router-link class="title" to="/">cassiopeia</router-link>
         <div class="nav__icons">
           <li>
@@ -22,6 +20,7 @@
         <ul>
           <router-link class="title" to="/shop/plants">Shop</router-link>
           <router-link class="title" to="/about">About</router-link>
+          <router-link class="title" to="/find-us">Find Us</router-link>
         </ul>
       </div>
     </div>
