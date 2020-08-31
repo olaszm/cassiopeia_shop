@@ -8,26 +8,15 @@
         </div>
 
         <div class="cart__content" v-if="cart.length">
-          <CartProduct
-            v-for="(item, index) in cart"
-            :key="index"
-            :item="item"
-          />
+          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
         <div v-else class="cart__content">
           <h3>Cart is empty</h3>
         </div>
         <div class="cart__footer">
           <div class="cart__discount">
-            <BaseInput
-              placeHolderText="Use IAMBROKE for 10% off"
-              v-model="promoCode"
-            />
-            <BaseButton
-              class="btn-outline"
-              @click.native="applyDisc"
-              :disabled="isDiscountUsed"
-            >
+            <BaseInput placeHolderText="Use IAMBROKE for 10% off" v-model="promoCode" />
+            <BaseButton class="btn-outline" @click.native="applyDisc" :disabled="isDiscountUsed">
               <h3 slot="button-text">Apply</h3>
             </BaseButton>
           </div>
@@ -167,6 +156,9 @@ export default {
     margin: 1.2rem 0;
     overflow-y: auto;
     scrollbar-width: none;
+    &::-webkit-scrollbar {
+      visibility: hidden;
+    }
     @media (max-width: $mobile) {
       height: 220px;
     }

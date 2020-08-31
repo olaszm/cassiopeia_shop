@@ -32,11 +32,17 @@ export default {
 @import "@/style/_variables.scss";
 .hero {
   height: 480px;
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
   position: relative;
+  @media (max-width: $widescreen) {
+    width: 60%;
+  }
+  @media (max-width: $tablet) {
+    width: 80%;
+  }
   @media (max-width: $mobile) {
-    width: 100%;
+    width: 95%;
   }
   img {
     height: 100%;

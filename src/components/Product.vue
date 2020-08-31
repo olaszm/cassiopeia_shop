@@ -8,9 +8,10 @@
         <h3>{{ product.name }}</h3>
         <h2>
           £{{ product.price }}
-          <span v-if="product.old_price != 0" class="text-strike">
-            £{{ product.old_price }}
-          </span>
+          <span
+            v-if="product.old_price != 0"
+            class="text-strike"
+          >£{{ product.old_price }}</span>
         </h2>
       </div>
       <div class="product__settings">
@@ -89,6 +90,7 @@ export default {
 .product__image {
   max-height: 550px;
   max-width: 550px;
+  overflow: hidden;
   img {
     height: 100%;
     width: 100%;

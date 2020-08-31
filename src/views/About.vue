@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="img__section">
-        <img src="https://source.unsplash.com/random/800x800" alt="" />
+        <img src="@/assets/about_img.jpg" alt />
       </div>
       <div class="about__section">
         <h3>Our Houseplant Stock</h3>
@@ -28,12 +28,10 @@
         </p>
       </div>
       <div class="img__section">
-        <img src="https://source.unsplash.com/random/800x800" alt="" />
+        <img src="@/assets/about_img_two.webp" alt />
       </div>
       <div class="about__section">
-        <h3>
-          Recycle & Reuse
-        </h3>
+        <h3>Recycle & Reuse</h3>
 
         <p>
           If you live in the JohnDoe are, we offer a great plastic pot recycle
