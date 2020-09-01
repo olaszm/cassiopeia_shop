@@ -62,7 +62,13 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   scrollBehavior() {
-    document.getElementById("app").scrollIntoView();
+    // document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ x: 0, y: 0 });
+      }, 300);
+    });
   },
   routes,
 });

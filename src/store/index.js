@@ -38,6 +38,9 @@ export default new Vuex.Store({
     ADD_TO_CART(state, payload) {
       state.cart.push(payload);
     },
+    SET_CART_ITEMS(state, payload) {
+      state.cart = payload;
+    },
     REMOVE_CART_ITEM(state, index) {
       state.cart.splice(index, 1);
     },
@@ -85,6 +88,7 @@ export default new Vuex.Store({
       if (!isExisting) {
         commit("ADD_TO_CART", payload);
       }
+      this.dispatch("saveCartItemsToLocalStorage");
     },
     setDelivery({ commit }, payload) {
       if (payload.price == "Free") {
@@ -97,6 +101,7 @@ export default new Vuex.Store({
     deleteCartItem({ state, commit }, id) {
       const index = state.cart.findIndex((cartItem) => cartItem.id == id);
       commit("REMOVE_CART_ITEM", index);
+      this.dispatch("saveCartItemsToLocalStorage");
     },
     async getItems(
       { commit, state },
@@ -117,6 +122,18 @@ export default new Vuex.Store({
         return item.fields;
       });
       commit("SET_PRODUCTS", products);
+    },
+    getCartItemsFromLocalStorage({ commit }) {
+      const storage = window.localStorage.getItem("cart");
+      const parsed = JSON.parse(storage);
+      if (parsed) {
+        commit("SET_CART_ITEMS", parsed);
+      }
+    },
+    saveCartItemsToLocalStorage({ state }) {
+      const cart = state.cart;
+      window.localStorage.setItem("cart", JSON.stringify(cart));
+      console.log("saved to storage");
     },
     async getProductById({ getters, commit }, id) {
       const item = getters.getProductById(id);

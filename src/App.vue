@@ -2,7 +2,7 @@
   <div id="app" class="app">
     <div class="main" @click.stop="closeCart">
       <Nav />
-      <transition name="fade">
+      <transition name="fade" mode="out-in">
         <router-view class="main-content" :key="$route.fullPath" />
       </transition>
       <Footer />
@@ -27,7 +27,12 @@ export default {
     ...mapState(["_isCartOpen"]),
   },
   methods: {
-    ...mapActions(["isCartOpen", "getProducts", "getItems"]),
+    ...mapActions([
+      "isCartOpen",
+      "getProducts",
+      "getItems",
+      "getCartItemsFromLocalStorage",
+    ]),
     closeCart(e) {
       if (
         !e.target.className.includes("fa-shopping-cart") &&
@@ -39,6 +44,7 @@ export default {
   },
   created() {
     this.getItems({ type: "product" });
+    this.getCartItemsFromLocalStorage();
   },
 };
 </script>
@@ -59,10 +65,10 @@ main {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.4s ease-in-out;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-  // transform: translateX(100%);
+  transform: translateX(100%);
 }
 </style>

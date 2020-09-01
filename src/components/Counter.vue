@@ -1,8 +1,11 @@
 <template>
-  <div class="counter">
-    <span class="count-btn" @click="decrementCounter">-</span>
+  <div class="counter" ref="el">
+    <button v-if="!isAmountOne" class="count-btn" @click="decrementCounter">-</button>
+    <button v-else class="count-btn" @click="decrementCounter">
+      <i class="fas fa-trash trash-icon"></i>
+    </button>
     <span>{{counter}}</span>
-    <span class="count-btn" @click="incrementCounter">+</span>
+    <button class="count-btn" @click="incrementCounter">+</button>
   </div>
 </template>
 
@@ -12,6 +15,7 @@ export default {
   props: ["value", "id"],
   data() {
     return {
+      isParentCart: false,
       counter: this.$props.value,
     };
   },
@@ -32,23 +36,41 @@ export default {
       this.$emit("updateItemCount", this.counter);
     },
   },
+  computed: {
+    isAmountOne() {
+      if (this.counter <= 1 && this.isParentCart) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   model: {
     prop: "itemCount",
     event: "updateItemCount",
+  },
+  mounted() {
+    this.isParentCart = this.$refs.el.parentNode.className.includes("cart");
   },
 };
 </script>
 
 <style lang='scss' scoped>
 @import "@/style/_variables.scss";
+
+.red-bg {
+  background: $invalid;
+}
+
 .counter {
   margin: 1rem 0;
   .count-btn {
+    border: none;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 0 0.875rem;
+    margin: 0 0.85rem;
     height: 24px;
     font-size: 16px;
     font-weight: 500;
@@ -59,6 +81,15 @@ export default {
     &:first-child {
       margin-left: 0;
     }
+    &:focus {
+      border: 1px solid $primary;
+      outline: none;
+    }
   }
+}
+
+.trash-icon {
+  font-size: 0.95rem;
+  color: $invalid;
 }
 </style>
