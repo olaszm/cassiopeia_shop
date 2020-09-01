@@ -1,6 +1,6 @@
 const express = require("express");
 const history = require("connect-history-api-fallback");
-// const { resolve } = require("path");
+const { join } = require("path");
 const bodyParser = require("body-parser");
 const stripe = require("stripe")(
   "sk_test_51HGQmJF3taK9EUdAQI0Clpppiwd3rlqmVKKdP6Q4yWBcO2QYQJYNdGm2sSR1tLTUMmbKfOCq1RDCHptqWYkLuobH00LaVb2nqb"
@@ -11,7 +11,7 @@ const app = express();
 app.use(history());
 
 console.log(__dirname);
-app.use(express.static("../dist"));
+app.use(express.static(join(__dirname + "/dist")));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
