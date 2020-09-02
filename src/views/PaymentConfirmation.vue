@@ -5,7 +5,7 @@
 
       <div class="confirmation__inner__text">
         <p>Thank you for your purchase!</p>
-        <p>Your payment of £{{this.$route.params.price}} was succesfully completed</p>
+        <p>Your payment of £{{this.$route.params.price / 100}} was succesfully completed</p>
       </div>
 
       <router-link to="/">

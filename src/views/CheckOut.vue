@@ -164,13 +164,14 @@ export default {
         })
         .then((res) => {
           if (res.error) {
-            console.error(res.error.message);
+            this.sendErrorMessage(res.error.message);
+            this.loading = false;
           } else {
             if (res.paymentIntent.status === "succeeded") {
               this.loading = false;
               this.clearCart();
-              console.log(res);
-              // this.$router.push(`/payment-confirm`);
+              const { amount, created } = res.paymentIntent;
+              this.$router.push(`/payment-confirm/${amount}/${created}`);
               // Show a success message to your customer
               // There's a risk of the customer closing the window before callback
               // execution. Set up a webhook or plugin to listen for the
