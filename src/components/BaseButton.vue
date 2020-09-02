@@ -42,25 +42,27 @@ button {
   }
 }
 
-.btn-fill {
-  color: $white;
-  background-color: $primary;
-}
-
-.btn-outline {
-  color: $primary;
-  background-color: $white;
-  border: 1px solid $primary;
-}
-
-.btn-wide {
-  padding-left: 3em;
-  padding-right: 3em;
-}
-
-.btn-circle {
-  color: white;
-  padding: 0;
-  border-radius: 50%;
+.btn {
+  &-fill {
+    color: $white;
+    background-color: $primary;
+  }
+  &-outline {
+    color: $primary;
+    background-color: $white;
+    border: 1px solid $primary;
+  }
+  &-wide {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
+  &-circle {
+    color: white;
+    padding: 0;
+    border-radius: 50%;
+  }
+  &-invalid {
+    background-color: $invalid;
+  }
 }
 </style>

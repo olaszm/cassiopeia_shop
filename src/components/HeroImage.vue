@@ -1,9 +1,6 @@
 <template>
   <div class="hero">
-    <img
-      src="https://images.unsplash.com/photo-1502920970741-47c1bafc8d49?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-      alt
-    />
+    <img src="@/assets/hero_img.webp" alt />
     <div class="hero__overlay">
       <h4>BEAUTIFUL INDOOR PLANTS</h4>
       <p>
@@ -35,6 +32,7 @@ export default {
   width: 70%;
   margin: 0 auto;
   position: relative;
+
   @media (max-width: $widescreen) {
     width: 60%;
   }
@@ -42,7 +40,7 @@ export default {
     width: 80%;
   }
   @media (max-width: $mobile) {
-    width: 95%;
+    width: 100%;
   }
   img {
     height: 100%;
@@ -54,14 +52,17 @@ export default {
     width: 350px;
     bottom: 20%;
     left: 15%;
+    color: white;
     h4 {
       margin: 1.25rem 0;
       font-size: 2.25rem;
       font-weight: 500;
+      text-shadow: 2px 2px 5px black;
     }
     p {
       font-size: 1.25rem;
       margin: 2rem 0;
+      text-shadow: 2px 2px 5px black;
     }
     button {
       height: 40px;

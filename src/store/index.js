@@ -103,6 +103,10 @@ export default new Vuex.Store({
       commit("REMOVE_CART_ITEM", index);
       this.dispatch("saveCartItemsToLocalStorage");
     },
+    clearCart({ commit, dispatch }) {
+      commit("SET_CART_ITEMS", []);
+      dispatch("saveCartItemsToLocalStorage");
+    },
     async getItems(
       { commit, state },
       { type = "product", order = "sys.createdAt" }
@@ -133,7 +137,6 @@ export default new Vuex.Store({
     saveCartItemsToLocalStorage({ state }) {
       const cart = state.cart;
       window.localStorage.setItem("cart", JSON.stringify(cart));
-      console.log("saved to storage");
     },
     async getProductById({ getters, commit }, id) {
       const item = getters.getProductById(id);

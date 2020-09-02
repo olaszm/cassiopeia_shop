@@ -4,7 +4,7 @@
       <div class="checkout__form">
         <div class="checkout__progress"></div>
 
-        <form action ref="form" @submit.prevent="">
+        <form action ref="form" @submit.prevent>
           <fieldset>
             <legend>Delivery method</legend>
             <BaseSelectInput
@@ -27,31 +27,11 @@
           </fieldset>
           <fieldset>
             <legend>Delivery address</legend>
-            <BaseInput
-              placeHolderText="Name"
-              @onChange="test"
-              name="name"
-              isRequired
-            />
+            <BaseInput placeHolderText="Name" @onChange="test" name="name" isRequired />
 
-            <BaseInput
-              placeHolderText="Email address"
-              @onChange="test"
-              name="email"
-              isRequired
-            />
-            <BaseInput
-              placeHolderText="City"
-              @onChange="test"
-              name="city"
-              isRequired
-            />
-            <BaseInput
-              placeHolderText="Post code"
-              @onChange="test"
-              name="postCode"
-              isRequired
-            />
+            <BaseInput placeHolderText="Email address" @onChange="test" name="email" isRequired />
+            <BaseInput placeHolderText="City" @onChange="test" name="city" isRequired />
+            <BaseInput placeHolderText="Post code" @onChange="test" name="postCode" isRequired />
           </fieldset>
         </form>
 
@@ -83,11 +63,7 @@
       <div class="checkout__product__summary">
         <div class="checkout__product__items">
           <h3>Total items: {{ getCartLength }}</h3>
-          <CartProduct
-            v-for="(item, index) in cart"
-            :key="index"
-            :item="item"
-          />
+          <CartProduct v-for="(item, index) in cart" :key="index" :item="item" />
         </div>
         <div class="cart__price">
           <div class="cart__price__delivery">
@@ -158,7 +134,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["setDelivery"]),
+    ...mapActions(["setDelivery", "clearCart"]),
     test(e) {
       this.form[e.inputName] = e.value;
     },
@@ -192,8 +168,9 @@ export default {
           } else {
             if (res.paymentIntent.status === "succeeded") {
               this.loading = false;
-              this.$router.push("/");
+              this.clearCart();
               console.log(res);
+              // this.$router.push(`/payment-confirm`);
               // Show a success message to your customer
               // There's a risk of the customer closing the window before callback
               // execution. Set up a webhook or plugin to listen for the
@@ -278,7 +255,6 @@ export default {
       })
       .then((res) => {
         this.clientS = res.data.clientSecret;
-        console.log(this.clientS);
       })
       .catch((err) => {
         console.error(err);
@@ -293,6 +269,7 @@ export default {
 .checkout__inner {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
   gap: 5rem;
   @media (max-width: $tablet) {
@@ -303,6 +280,7 @@ export default {
 
 .checkout__form {
   flex: 1;
+  order: 2;
   form {
     margin: 0;
     padding: 0;
@@ -319,9 +297,6 @@ export default {
     input {
       height: 45px;
     }
-  }
-  @media (max-width: $tablet) {
-    order: 2;
   }
 }
 

@@ -10,7 +10,6 @@ const app = express();
 
 app.use(history());
 
-console.log(__dirname);
 app.use(express.static("../dist"));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));

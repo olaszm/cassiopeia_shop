@@ -29,6 +29,17 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/FindUs.vue"),
   },
   {
+    path: "/payment-confirm/:price/:id",
+    name: "PaymentConfirmation",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ "../views/PaymentConfirmation.vue"
+      ),
+  },
+  {
     path: "/product/:id",
     name: "ProductPage",
     // route level code-splitting
@@ -62,13 +73,7 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   scrollBehavior() {
-    // document.getElementById("app").scrollIntoView({ behavior: "smooth" });
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ x: 0, y: 0 });
-      }, 300);
-    });
+    document.querySelector("html").scrollIntoView({ behavior: "smooth" });
   },
   routes,
 });

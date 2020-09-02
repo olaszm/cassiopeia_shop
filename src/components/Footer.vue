@@ -4,7 +4,7 @@
       <div class="footer__inner">
         <div class="footer__column footer_contact">
           <h3>social</h3>
-          <div class="footer__social_btns">
+          <div class="footer__social__btns">
             <i class="fab fa-instagram icon"></i>
             <i class="fab fa-whatsapp icon"></i>
             <i class="fab fa-facebook icon"></i>
@@ -14,7 +14,9 @@
           <h3>site map</h3>
           <div class="footer__column__content">
             <ul>
-              <router-link to="/shop/plants">Flowers</router-link>
+              <router-link to="/shop/plants">Shop</router-link>
+              <router-link to="/about">About</router-link>
+              <router-link to="/find-us">Contact</router-link>
             </ul>
           </div>
         </div>
@@ -22,8 +24,6 @@
           <h3>other</h3>
           <div class="footer__column__content">
             <ul>
-              <router-link to="/about">About</router-link>
-              <router-link to="/find-us">Contact</router-link>
               <router-link to="/">Terms & Conditions</router-link>
               <router-link to="/">Shipping</router-link>
             </ul>
@@ -46,7 +46,6 @@ export default {};
 <style lang="scss" scoped>
 @import "@/style/_variables.scss";
 footer {
-  margin-top: 10rem;
   height: 100%;
   padding: 2rem 0;
   background-color: $snow;
@@ -79,13 +78,15 @@ footer {
       background-color: $grey;
       opacity: 0.4;
       position: absolute;
-      bottom: -10px;
+      bottom: -6px;
       left: 0;
       right: 0;
     }
   }
 }
-.footer__social_btns {
+
+.footer__social__btns {
+  margin-top: 1.3rem;
   margin-left: 0.1rem;
   i {
     margin-right: 1.25rem;
@@ -103,6 +104,9 @@ footer {
       margin: 0.9rem 0;
       &:hover {
         color: $grey;
+      }
+      &:first-child {
+        margin-top: 0;
       }
     }
   }

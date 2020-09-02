@@ -35,8 +35,15 @@
             </div>
           </div>
           <div class="cart__checkout">
-            <BaseButton class="btn-fill btn-wide" @click.native="checkOut">
+            <BaseButton v-if="cart.length" class="btn-fill btn-wide" @click.native="checkOut">
               <h3 slot="button-text">Checkout</h3>
+            </BaseButton>
+            <BaseButton
+              v-if="cart.length"
+              class="btn-fill btn-wide btn-invalid"
+              @click.native="removeCartItems"
+            >
+              <h3 slot="button-text">Clear Cart</h3>
             </BaseButton>
           </div>
         </div>
@@ -75,7 +82,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["isCartOpen", "applyDiscount"]),
+    ...mapActions(["isCartOpen", "applyDiscount", "clearCart"]),
     applyDisc() {
       if (this.promoCode.value === "IAMBROKE") {
         this.applyDiscount(0.1);
@@ -87,6 +94,9 @@ export default {
     checkOut() {
       this.$router.push(`/checkout/${this.createRandomID}`);
       this.closeModal();
+    },
+    removeCartItems() {
+      this.clearCart();
     },
   },
 };
@@ -216,6 +226,19 @@ export default {
     }
     @media (min-width: $widescreen) {
       flex-wrap: nowrap;
+    }
+  }
+}
+
+.cart__checkout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: $mobile) {
+    button {
+      height: 35px;
+      width: 150px;
     }
   }
 }

@@ -61,6 +61,7 @@ main {
 .main-content {
   min-height: 100vh;
   margin: 2rem auto;
+  margin-bottom: 8rem;
 }
 
 .fade-enter-active,
@@ -69,6 +70,6 @@ main {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-  transform: translateX(100%);
+  transform: translateX(-100%);
 }
 </style>
