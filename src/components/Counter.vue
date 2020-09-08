@@ -64,6 +64,7 @@ export default {
 
 .counter {
   margin: 1rem 0;
+  min-width: 100px;
   .count-btn {
     border: none;
     cursor: pointer;
